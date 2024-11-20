@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:46:23 by asene             #+#    #+#             */
-/*   Updated: 2024/11/20 13:45:32 by asene            ###   ########.fr       */
+/*   Updated: 2024/11/20 15:40:41 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 # include <stdarg.h>
 # include <unistd.h>
 
-# define HEX_BASE_LOWER "0123456789abcdef"
-# define HEX_BASE_UPPER "0123456789ABCDEF"
+# define HEX_BASE_L "0123456789abcdef"
+# define HEX_BASE_U "0123456789ABCDEF"
 
 int	ft_printf_putchar(int fd, char c);
 int	ft_printf_putstr(int fd, char *str);

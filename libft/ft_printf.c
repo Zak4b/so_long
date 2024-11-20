@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:19:56 by asene             #+#    #+#             */
-/*   Updated: 2024/11/20 13:47:01 by asene            ###   ########.fr       */
+/*   Updated: 2024/11/20 15:51:55 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ static int	handle_conversion(int fd, char **str, va_list args)
 	else if (**str == 'u')
 		count = ft_printf_putnbru(fd, (int)va_arg(args, unsigned int));
 	else if (**str == 'x')
-		count = ft_printf_puthex(fd, va_arg(args, unsigned int), HEX_BASE_LOWER);
+		count = ft_printf_puthex(fd, va_arg(args, unsigned int), HEX_BASE_L);
 	else if (**str == 'X')
-		count = ft_printf_puthex(fd, va_arg(args, unsigned int), HEX_BASE_UPPER);
+		count = ft_printf_puthex(fd, va_arg(args, unsigned int), HEX_BASE_U);
 	else if (**str == '%')
 		count = ft_printf_putchar(fd, '%');
 	(*str)++;

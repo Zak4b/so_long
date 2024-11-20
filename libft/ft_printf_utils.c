@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 21:15:58 by asene             #+#    #+#             */
-/*   Updated: 2024/11/20 13:47:23 by asene            ###   ########.fr       */
+/*   Updated: 2024/11/20 15:50:33 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,5 @@ int	ft_printf_put_pointer(int fd, void *adress)
 	if (adress == NULL)
 		return (ft_printf_putstr(fd, "(nil)"));
 	ft_printf_putstr(fd, "0x");
-	return (2 + ft_printf_puthex(fd, (unsigned long)adress, HEX_BASE_LOWER));
+	return (2 + ft_printf_puthex(fd, (unsigned long)adress, HEX_BASE_L));
 }
