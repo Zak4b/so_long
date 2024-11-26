@@ -3,14 +3,17 @@ NAME = so_long
 LIBFT = libft/libft.a
 
 FLAGS = -Wall -Wextra -Werror
+LDFLAGS = -L./minilibx-linux -lmlx -L/usr/lib -I./minilibx-linux -lXext -lX11 -lm -lz
 
-SOURCES = main.c
+SOURCES = \
+	main.c \
+	map_parsing.c
 
 OBJDIR = obj
 OBJS = $(addprefix $(OBJDIR)/, $(SOURCES:.c=.o))
 
 $(NAME): $(LIBFT) $(OBJS)
-	cc -o $(NAME) $(OBJS) libft/libft.a 
+	cc $(FLAGS) $(LDFLAGS) -o $(NAME) $(OBJS) libft/libft.a
 
 all: $(NAME)
 

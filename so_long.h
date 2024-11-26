@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:23:00 by asene             #+#    #+#             */
-/*   Updated: 2024/11/20 15:55:49 by asene            ###   ########.fr       */
+/*   Updated: 2024/11/26 14:16:13 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 
 typedef struct s_map
 {
-	unsigned int	width;
-	unsigned int	height;
+	int		width;
+	int		height;
+	t_list	*map_data;
 }	t_map;
+
+t_map	*parse_map(int fd);
