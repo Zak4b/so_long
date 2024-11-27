@@ -3,7 +3,7 @@ NAME = so_long
 LIBFT = libft/libft.a
 
 FLAGS = -Wall -Wextra -Werror
-LDFLAGS = -L./minilibx-linux -lmlx -L/usr/lib -I./minilibx-linux -lXext -lX11 -lm -lz
+LIBFLAGS = -L./minilibx-linux -L/usr/lib -lmlx -lXext -lX11 -lm -lz
 
 SOURCES = \
 	main.c \
@@ -13,7 +13,7 @@ OBJDIR = obj
 OBJS = $(addprefix $(OBJDIR)/, $(SOURCES:.c=.o))
 
 $(NAME): $(LIBFT) $(OBJS)
-	cc $(FLAGS) $(LDFLAGS) -o $(NAME) $(OBJS) libft/libft.a
+	@cc $(FLAGS) $(LIBFLAGS) -o $(NAME) $(OBJS) $(LIBFT) minilibx-linux/libmlx.a
 
 all: $(NAME)
 
@@ -24,7 +24,7 @@ $(OBJDIR)/%.o: %.c | $(OBJDIR)
 	@cc $(FLAGS) -c $< -o $@
 
 $(LIBFT):
-	make -C libft all
+	@make -C libft all
 
 clean:
 	@rm -rf $(OBJDIR)
