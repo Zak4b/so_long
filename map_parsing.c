@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:57:27 by asene             #+#    #+#             */
-/*   Updated: 2024/11/26 14:23:51 by asene            ###   ########.fr       */
+/*   Updated: 2024/11/28 17:19:39 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_map *init_map(void)
 		return (NULL);
 	map->width = -1;
 	map->height = 0;
-	map->map_data = NULL;
+	map->data = NULL;
 	return (map);
 }
 
@@ -43,28 +43,46 @@ void	sanitize_line(char **line)
 		*n = '\0';
 }
 
-t_map	*parse_map(int fd)
+t_list	*map_list(int fd, int *width, int *height)
 {
-	t_map	*map;
+	t_list	*lst;
 	char	*line;
 
-	map = init_map();
+	lst = NULL;
 	while (1)
 	{
 		line = get_next_line(fd);
 		if (line == NULL)
 			break ;
 		sanitize_line(&line);
-		if (map->width == -1)
+		if (*width == -1)
 		{
-			map->width = ft_strlen(line);
-			if (map->width < 3)
+			*width = ft_strlen(line);
+			if (*width < 3)
 				return (free(line), exit(EXIT_FAILURE), NULL);
 		}
-		else if ((size_t)map->width != ft_strlen(line) || !line_is_valid(line))
-			return (free(line), ft_fprintf(2, "Invalid map\n"), NULL);
-		ft_lstadd_back(&map->map_data, ft_lstnew(line));
-		map->height++;
+		else if ((size_t)*width != ft_strlen(line) || !line_is_valid(line))
+			return (free(line), ft_lstclear(&lst, free), NULL);
+		ft_lstadd_back(&lst, ft_lstnew(line));
+		(*height)++;
 	}
+	return (lst);
+}
+
+t_map	*parse_map(int fd)
+{
+	int		i;
+	t_list	*lst;
+	t_map	*map;
+
+	map = init_map();
+	lst = map_list(fd, &(map->width), &(map->height));
+	i = 0;
+	map->data = ft_calloc(map->height + 1, sizeof(char));
+	if (map->data == NULL)
+		return (ft_lstclear(&lst, free), NULL);
+	while (i < map->height)
+		map->data[i++] = lst->content;
+	ft_lstclear(&lst, NULL); // check clear NULL
 	return (map);
 }
