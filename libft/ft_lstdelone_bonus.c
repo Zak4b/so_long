@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:11:12 by asene             #+#    #+#             */
-/*   Updated: 2024/11/04 15:11:13 by asene            ###   ########.fr       */
+/*   Updated: 2024/11/29 10:16:29 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	ft_lstdelone(t_list *lst, void (*del)(void*))
 {
-	del(lst->content);
+	if (del)
+		del(lst->content);
 	free(lst);
 }

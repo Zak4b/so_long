@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:23:00 by asene             #+#    #+#             */
-/*   Updated: 2024/11/28 16:18:33 by asene            ###   ########.fr       */
+/*   Updated: 2024/11/29 16:38:11 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@
 # include <fcntl.h>
 # include "minilibx-linux/mlx.h"
 
-# define CELL_SIZE 80
+# define CELL_SIZE 64
 
 typedef struct s_player
 {
 	int	x;
 	int	y;
+	int	dir;
 }	t_player;
 
 typedef struct s_map
@@ -38,6 +39,9 @@ typedef struct s_game {
 	void		*mlx_win;
 	t_player	player;
 	t_map		*map;
+	t_list		*img;
+	void		*floor_img;
+	void		*wall_img;
 }	t_game;
 
 // EVENTS

@@ -36,6 +36,6 @@ clean:
 	@rm -rf $(OBJDIR)
 
 fclean: clean
-	@rm -f $(NAME)
+	@rm -f $(NAME) $(LIBFT)
 
 re: fclean all
