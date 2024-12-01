@@ -87,7 +87,7 @@ void	init_game(t_game *game)
 	int		iw;
     int		ih;
 	game->mlx = mlx_init();
-	game->mlx_win = mlx_new_window(game->mlx, 1920, 1080, "Hello world!");
+	game->mlx_win = mlx_new_window(game->mlx, game->map->width * CELL_SIZE, game->map->height * CELL_SIZE, "Hello world!");
 	game->img = NULL;
 	ft_lstadd_back(&(game->img), ft_lstnew(mlx_xpm_file_to_image(game->mlx, "./assets/pl.xpm", &iw, &ih)));
 	ft_lstadd_back(&(game->img), ft_lstnew(mlx_xpm_file_to_image(game->mlx, "./assets/pb.xpm", &iw, &ih)));
