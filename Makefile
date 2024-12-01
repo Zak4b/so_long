@@ -10,16 +10,17 @@ FLAGS = -Wall -Wextra -Werror -g
 LIBFLAGS = -L./minilibx-linux -L/usr/lib -lmlx -lXext -lX11 -lm -lz
 
 SOURCES = \
-	main.c \
-	event_hooks.c \
-	map_parsing.c
+        main.c \
+        event_hooks.c \
+        map_parsing.c
 
 OBJDIR = obj
 OBJS = $(addprefix $(OBJDIR)/, $(SOURCES:.c=.o))
 
 $(NAME): $(LIBFT) $(OBJS)
-	@cc $(FLAGS) $(LIBFLAGS) -o $(NAME) $(OBJS) $(LIBFT) minilibx-linux/libmlx.a
-	@echo "Done"
+	@echo "$(GREEN)Compiling $(NAME)...$(RESET)"
+	@gcc $(FLAGS) -o $(NAME) $(OBJS) $(LIBFLAGS) $(LIBFT) minilibx-linux/libmlx.a
+	@echo "$(GREEN)Compilation finished successfully!$(RESET)"
 
 all: $(NAME)
 
@@ -27,15 +28,22 @@ $(OBJDIR):
 	@mkdir -p $(OBJDIR)
 
 $(OBJDIR)/%.o: %.c | $(OBJDIR)
-	@cc $(FLAGS) -c $< -o $@
+	@echo "$(GREEN)Compiling $<...$(RESET)"
+	@gcc $(FLAGS) -Iminilibx-linux -Ilibft -c $< -o $@
 
 $(LIBFT):
+	@echo "$(GREEN)Building Libft...$(RESET)"
 	@make -C libft all
 
 clean:
+	@echo "$(RED)Cleaning object files...$(RESET)"
 	@rm -rf $(OBJDIR)
+	@make -C libft clean
 
 fclean: clean
-	@rm -f $(NAME) $(LIBFT)
+	@echo "$(RED)Cleaning all...$(RESET)"
+	@rm -f $(NAME)
 
 re: fclean all
+
+.PHONY: all clean fclean re
