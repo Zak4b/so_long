@@ -12,14 +12,15 @@ LIBFLAGS = -L./minilibx-linux -L/usr/lib -lmlx -lXext -lX11 -lm -lz
 SOURCES = \
         main.c \
         event_hooks.c \
-        map_parsing.c
+        map_parsing.c \
+		mlx_img_utils.c
 
 OBJDIR = obj
 OBJS = $(addprefix $(OBJDIR)/, $(SOURCES:.c=.o))
 
 $(NAME): $(LIBFT) $(OBJS)
 	@echo "$(GREEN)Compiling $(NAME)...$(RESET)"
-	@gcc $(FLAGS) -o $(NAME) $(OBJS) $(LIBFLAGS) $(LIBFT) minilibx-linux/libmlx.a
+	@cc $(FLAGS) -o $(NAME) $(OBJS) $(LIBFLAGS) $(LIBFT) minilibx-linux/libmlx.a
 	@echo "$(GREEN)Compilation finished successfully!$(RESET)"
 
 all: $(NAME)
@@ -29,7 +30,7 @@ $(OBJDIR):
 
 $(OBJDIR)/%.o: %.c | $(OBJDIR)
 	@echo "$(GREEN)Compiling $<...$(RESET)"
-	@gcc $(FLAGS) -Iminilibx-linux -Ilibft -c $< -o $@
+	@cc $(FLAGS) -Iminilibx-linux -Ilibft -c $< -o $@
 
 $(LIBFT):
 	@echo "$(GREEN)Building Libft...$(RESET)"
