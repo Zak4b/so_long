@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:23:00 by asene             #+#    #+#             */
-/*   Updated: 2024/12/02 12:00:37 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/02 16:53:54 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <fcntl.h>
 # include "minilibx-linux/mlx.h"
 
-# define CELL_SIZE 64
+# define CELL_SIZE 80
 
 typedef struct	s_img {
 	int		width;
@@ -49,7 +49,7 @@ typedef struct s_game {
 	void		*mlx_win;
 	t_player	player;
 	t_map		*map;
-	t_list		*img;
+	t_list		*img[4];
 	t_img		*floor_img;
 	t_img		*wall_img;
 }	t_game;
@@ -62,6 +62,13 @@ typedef enum e_keycode {
 	KEY_S = 115,
 	KEY_D = 100
 } t_keycode;
+
+typedef enum e_direction {
+	D_LEFT = 0,
+	D_UP = 1,
+	D_RIGHT = 2,
+	D_DOWN = 3
+} t_direction;
 
 t_img	*load_img(t_game *game, char *path);
 t_list	*load_sprites(t_game *game, char *path, unsigned int count);

@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 10:51:51 by asene             #+#    #+#             */
-/*   Updated: 2024/12/02 11:38:45 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/02 17:07:27 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int loop(t_game *game)
 			t = 0;
 		mlx_clear_window(game->mlx, game->mlx_win);
 		i = 0;
-		img = game->img;
+		img = game->img[game->player.dir];
 		while (i < t)
 		{
 			i++;
@@ -68,7 +68,10 @@ void	init_game(t_game *game)
 {
 	game->mlx = mlx_init();
 	game->mlx_win = mlx_new_window(game->mlx, game->map->width * CELL_SIZE, game->map->height * CELL_SIZE, "Hello world!");
-	game->img = load_sprites(game, "./assets/pf", 6);
+	game->img[D_DOWN] = load_sprites(game, "./assets/pf", 6);
+	game->img[D_UP] = load_sprites(game, "./assets/pb", 6);
+	game->img[D_RIGHT] = load_sprites(game, "./assets/pr", 6);
+	game->img[D_LEFT] = load_sprites(game, "./assets/pl", 6);
 	game->floor_img = load_img(game, "./assets/grass.xpm");
 	game->wall_img = load_img(game, "./assets/wall.xpm");
 	mlx_hook(game->mlx_win, 17, 0, close_window, game);
@@ -77,7 +80,6 @@ void	init_game(t_game *game)
 	game->player.y = 0;
 	game->player.dir = 3;
 	mlx_loop_hook(game->mlx, loop, game);
-	mlx_loop(game->mlx);
 }
 
 int	main(int argc, char **argv)
@@ -94,4 +96,5 @@ int	main(int argc, char **argv)
 	if (game.map == NULL)
 		return (ft_fprintf(2, "Invalid map, parsing failed\n"), EXIT_FAILURE);
 	init_game(&game);
+	mlx_loop(game.mlx);
 }
