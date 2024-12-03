@@ -6,7 +6,7 @@ RESET = \033[0m
 
 LIBFT = libft/libft.a
 
-FLAGS = -Wall -Wextra -Werror -g
+FLAGS = -Wall -Wextra -Werror -g -O3
 LIBFLAGS = -L./minilibx-linux -L/usr/lib -lmlx -lXext -lX11 -lm -lz
 
 SOURCES = \
@@ -46,5 +46,8 @@ fclean: clean
 	@rm -f $(NAME)
 
 re: fclean all
+
+norm:
+	norminette $(SOURCES)
 
 .PHONY: all clean fclean re

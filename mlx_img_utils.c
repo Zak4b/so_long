@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 11:35:22 by asene             #+#    #+#             */
-/*   Updated: 2024/12/02 11:58:38 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/03 10:53:35 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,13 @@ t_img	*load_img(t_game *game, char *path)
 	t_img	*img;
 
 	img = ft_calloc(1, sizeof(t_img));
-	img->img = mlx_xpm_file_to_image(game->mlx, path, &(img->width), &(img->height));
+	img->img = mlx_xpm_file_to_image(game->mlx, path,
+			&(img->width), &(img->height));
 	if (img->img != NULL)
-		img->addr = mlx_get_data_addr(img->img, &(img->bpp), &(img->line_length), &(img->endian));
+		img->addr = mlx_get_data_addr(img->img, &(img->bpp),
+				&(img->line_length), &(img->endian));
 	return (img);
 }
-
 
 t_list	*load_sprites(t_game *game, char *path, unsigned int count)
 {
@@ -60,24 +61,25 @@ t_list	*load_sprites(t_game *game, char *path, unsigned int count)
 	return (lst);
 }
 
-void	put_image(t_game *game, t_img *img, int x_offset, int y_offset)
+void	put_image(t_game *game, t_img *img, int x0, int y0)
 {
-    int x, y;
-    int *img_data;
-    int color;
+	int	x;
+	int	y;
+	int	*img_data;
+	int	color;
 
-    img_data = (int *)img->addr;
+	img_data = (int *)img->addr;
 	y = 0;
-    while (y < img->height)
-    {
+	while (y < img->height)
+	{
 		x = 0;
-        while (x < img->width)
-        {
-            color = img_data[y * (img->line_length / 4) + x];
-            if ((color >> 24 & 0xFF) == 0)
-                mlx_pixel_put(game->mlx, game->mlx_win, x + x_offset, y + y_offset, color);
+		while (x < img->width)
+		{
+			color = img_data[y * (img->line_length / 4) + x];
+			if ((color >> 24 & 0xFF) == 0)
+				mlx_pixel_put(game->mlx, game->mlx_win, x + x0, y + y0, color);
 			x++;
-        }
+		}
 		y++;
-    }
+	}
 }

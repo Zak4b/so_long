@@ -6,16 +6,16 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:31:59 by asene             #+#    #+#             */
-/*   Updated: 2024/12/02 16:55:02 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/03 10:46:03 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int key_hook(int keycode, t_game *game)
+int	key_hook(int keycode, t_game *game)
 {
-    if (keycode == KEY_ESC)
-        close_window(game);
+	if (keycode == KEY_ESC)
+		close_window(game);
 	else if (keycode == KEY_A)
 	{
 		game->player.x -= CELL_SIZE;
@@ -36,12 +36,13 @@ int key_hook(int keycode, t_game *game)
 		game->player.y += CELL_SIZE;
 		game->player.dir = D_DOWN;
 	}
-    return 0;
+	return (0);
 }
 
 void	clear_lst_img(t_game *game, t_list **lst)
 {
 	t_img	*i;
+
 	if (lst == NULL || *lst == NULL)
 		return ;
 	if ((*lst)->next)
@@ -53,9 +54,9 @@ void	clear_lst_img(t_game *game, t_list **lst)
 	*lst = NULL;
 }
 
-int close_window(t_game *game)
+int	close_window(t_game *game)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < game->map->height)
@@ -73,6 +74,6 @@ int close_window(t_game *game)
 	mlx_destroy_window(game->mlx, game->mlx_win);
 	mlx_destroy_display(game->mlx);
 	free(game->mlx);
-    exit(EXIT_SUCCESS);
-    return 0;
+	exit(EXIT_SUCCESS);
+	return (0);
 }

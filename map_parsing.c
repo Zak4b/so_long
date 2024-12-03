@@ -6,15 +6,15 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:57:27 by asene             #+#    #+#             */
-/*   Updated: 2024/11/29 16:06:18 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/03 10:57:15 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-t_map *init_map(void)
+t_map	*init_map(void)
 {
-	t_map *map;
+	t_map	*map;
 
 	map = ft_calloc(1, sizeof(t_map));
 	if (map == NULL)
@@ -61,7 +61,7 @@ t_list	*map_list(int fd, int *width, int *height)
 			if (*width < 3)
 				return (free(line), exit(EXIT_FAILURE), NULL);
 		}
-		else if ((size_t)*width != ft_strlen(line) || !line_is_valid(line))
+		else if ((size_t)(*width) != ft_strlen(line) || !line_is_valid(line))
 			return (free(line), ft_lstclear(&lst, free), NULL);
 		ft_lstadd_back(&lst, ft_lstnew(line));
 		(*height)++;
