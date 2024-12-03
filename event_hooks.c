@@ -6,36 +6,39 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:31:59 by asene             #+#    #+#             */
-/*   Updated: 2024/12/03 10:46:03 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/03 14:57:58 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	key_hook(int keycode, t_game *game)
+int	key_down_hook(int k, t_game *game)
 {
-	if (keycode == KEY_ESC)
-		close_window(game);
-	else if (keycode == KEY_A)
-	{
-		game->player.x -= CELL_SIZE;
+	if (k == KEY_A || k == KEY_W || k == KEY_D || k == KEY_S)
+		game->player.mov = 1;
+	if (k == KEY_A)
 		game->player.dir = D_LEFT;
-	}
-	else if (keycode == KEY_W)
-	{
-		game->player.y -= CELL_SIZE;
+	else if (k == KEY_W)
 		game->player.dir = D_UP;
-	}
-	else if (keycode == KEY_D)
-	{
-		game->player.x += CELL_SIZE;
+	else if (k == KEY_D)
 		game->player.dir = D_RIGHT;
-	}
-	else if (keycode == KEY_S)
-	{
-		game->player.y += CELL_SIZE;
+	else if (k == KEY_S)
 		game->player.dir = D_DOWN;
-	}
+	else if (k == KEY_ESC)
+		close_window(game);
+	return (0);
+}
+
+int	key_up_hook(int k, t_game *game)
+{
+	if (k == KEY_A && game->player.dir == D_LEFT)
+		game->player.mov = 0;
+	else if (k == KEY_W && game->player.dir == D_UP)
+		game->player.mov = 0;
+	else if (k == KEY_D && game->player.dir == D_RIGHT)
+		game->player.mov = 0;
+	else if (k == KEY_S && game->player.dir == D_DOWN)
+		game->player.mov = 0;
 	return (0);
 }
 
@@ -63,10 +66,13 @@ int	close_window(t_game *game)
 		free(game->map->data[i++]);
 	free(game->map->data);
 	free(game->map);
-	clear_lst_img(game, &(game->img[0]));
-	clear_lst_img(game, &(game->img[1]));
-	clear_lst_img(game, &(game->img[2]));
-	clear_lst_img(game, &(game->img[3]));
+	i = 0;
+	while (i < 4)
+	{
+		clear_lst_img(game, &(game->img[0][i]));
+		clear_lst_img(game, &(game->img[1][i]));
+		i++;
+	}
 	mlx_destroy_image(game->mlx, game->floor_img->img);
 	free(game->floor_img);
 	mlx_destroy_image(game->mlx, game->wall_img->img);

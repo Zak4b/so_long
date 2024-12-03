@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:23:00 by asene             #+#    #+#             */
-/*   Updated: 2024/12/02 16:53:54 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/03 14:39:07 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_player
 	int	x;
 	int	y;
 	int	dir;
+	int	mov;
 }	t_player;
 
 typedef struct s_map
@@ -49,7 +50,7 @@ typedef struct s_game {
 	void		*mlx_win;
 	t_player	player;
 	t_map		*map;
-	t_list		*img[4];
+	t_list		*img[2][4];
 	t_img		*floor_img;
 	t_img		*wall_img;
 }	t_game;
@@ -74,7 +75,8 @@ t_img	*load_img(t_game *game, char *path);
 t_list	*load_sprites(t_game *game, char *path, unsigned int count);
 void	put_image(t_game *game, t_img *img, int x_offset, int y_offset);
 
-int key_hook(int keycode, t_game *game);
+int key_down_hook(int keycode, t_game *game);
+int key_up_hook(int keycode, t_game *game);
 int close_window(t_game *game);
 
 t_map	*parse_map(int fd);
