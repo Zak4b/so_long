@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 10:51:51 by asene             #+#    #+#             */
-/*   Updated: 2024/12/04 11:12:51 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/04 14:28:52 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,16 @@
 
 void	print_map(t_game *game)
 {
-	int		i;
-	int		j;
-	t_img	*img;
+	int		y;
+	int		x;
 
-	i = 0;
-	while (i < game->map->height)
+	y = 0;
+	while (y < game->map->height)
 	{
-		j = 0;
-		while (j < game->map->width)
-		{
-			if (game->map->data[i][j] == '1')
-				img = game->wall_img->img;
-			else
-				img = game->floor_img->img;
-			mlx_put_image_to_window(game->mlx, game->mlx_win, img,
-				(j++) * CELL_SIZE, i * CELL_SIZE);
-		}
-		i++;
+		x = 0;
+		while (x < game->map->width)
+			render_cell(game, x++, y);
+		y++;
 	}
 }
 
@@ -48,15 +40,16 @@ void	init_game(t_game *game)
 	game->img[1][D_UP] = load_sprites(game, "./assets/player/walk/pwb", 6);
 	game->img[1][D_RIGHT] = load_sprites(game, "./assets/player/walk/pwr", 6);
 	game->img[1][D_LEFT] = load_sprites(game, "./assets/player/walk/pwl", 6);
-	game->floor_img = load_img(game, "./assets/grass.xpm");
-	game->wall_img = load_img(game, "./assets/wall.xpm");
+	game->floor = load_img(game, "./assets/grass.xpm");
+	game->wall = load_img(game, "./assets/wall.xpm");
+	game->item = load_img(game, "./assets/coin.xpm");
 	mlx_hook(game->mlx_win, 17, 0, close_window, game);
 	mlx_hook(game->mlx_win, 2, 1L << 0, key_down_hook, game);
 	mlx_hook(game->mlx_win, 3, 1L << 1, key_up_hook, game);
-	game->player.x = 100;
-	game->player.y = 100;
+	game->player.x = 1.5 * CELL_SIZE;
+	game->player.y = 1.5 * CELL_SIZE;
 	game->player.mov = 0;
-	game->player.dir = 3;
+	game->player.dir = D_RIGHT;
 	mlx_loop_hook(game->mlx, game_loop, game);
 }
 
