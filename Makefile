@@ -12,6 +12,7 @@ LIBFLAGS = -L./minilibx-linux -L/usr/lib -lmlx -lXext -lX11 -lm -lz
 SOURCES = \
         main.c \
         event_hooks.c \
+        game.c \
         map_parsing.c \
 		mlx_img_utils.c
 

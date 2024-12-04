@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 11:35:22 by asene             #+#    #+#             */
-/*   Updated: 2024/12/03 10:53:35 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/04 10:27:12 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,19 @@ void	put_image(t_game *game, t_img *img, int x0, int y0)
 		}
 		y++;
 	}
+}
+
+void	clear_lst_img(t_game *game, t_list **lst)
+{
+	t_img	*i;
+
+	if (lst == NULL || *lst == NULL)
+		return ;
+	if ((*lst)->next)
+		clear_lst_img(game, &((*lst)->next));
+	i = (*lst)->content;
+	mlx_destroy_image(game->mlx, i->img);
+	free(i);
+	free(*lst);
+	*lst = NULL;
 }

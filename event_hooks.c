@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:31:59 by asene             #+#    #+#             */
-/*   Updated: 2024/12/03 14:57:58 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/04 12:04:56 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,6 @@ int	key_up_hook(int k, t_game *game)
 	return (0);
 }
 
-void	clear_lst_img(t_game *game, t_list **lst)
-{
-	t_img	*i;
-
-	if (lst == NULL || *lst == NULL)
-		return ;
-	if ((*lst)->next)
-		clear_lst_img(game, &((*lst)->next));
-	i = (*lst)->content;
-	mlx_destroy_image(game->mlx, i->img);
-	free(i);
-	free(*lst);
-	*lst = NULL;
-}
-
 int	close_window(t_game *game)
 {
 	int	i;
@@ -82,4 +67,30 @@ int	close_window(t_game *game)
 	free(game->mlx);
 	exit(EXIT_SUCCESS);
 	return (0);
+}
+
+int	game_loop(t_game *game)
+{
+	static int	time = 0;
+	static int	t = 0;
+	t_list		*img;
+	int			i;
+
+	if (time % 3000 == 0)
+	{
+		time = 0;
+		t++;
+		if (t > 5)
+			t = 0;
+		i = 0;
+		img = game->img[game->player.mov][game->player.dir];
+		while (i++ < t)
+			img = img->next;
+		print_map(game);
+		move_player(game);
+		put_image(game, img->content, game->player.x - 32, game->player.y - 32);
+		mlx_do_sync(game->mlx);
+	}
+	time++;
+	return (1);
 }
