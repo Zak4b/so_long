@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 10:51:51 by asene             #+#    #+#             */
-/*   Updated: 2024/12/04 14:28:52 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/10 10:24:44 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	init_game(t_game *game)
 	game->player.mov = 0;
 	game->player.dir = D_RIGHT;
 	mlx_loop_hook(game->mlx, game_loop, game);
+	mlx_do_key_autorepeatoff(game->mlx);
 }
 
 int	main(int argc, char **argv)

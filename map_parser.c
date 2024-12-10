@@ -1,37 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_parsing.c                                      :+:      :+:    :+:   */
+/*   map_parser.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:57:27 by asene             #+#    #+#             */
-/*   Updated: 2024/12/03 10:57:15 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/10 13:05:40 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-t_map	*init_map(void)
-{
-	t_map	*map;
-
-	map = ft_calloc(1, sizeof(t_map));
-	if (map == NULL)
-		return (NULL);
-	map->width = -1;
-	map->height = 0;
-	map->data = NULL;
-	return (map);
-}
-
 int	line_is_valid(const char *line)
 {
-	if (*line != '1')
+	int	i;
+
+	i = 0;
+	if (line[i] != '1')
 		return (0);
-	while (*line && ft_strchr("01CEP", *line))
-		line++;
-	return (*line == '\0');
+	while (line[i] && ft_strchr("01CEP", line[i]))
+		i++;
+	if (i >= 3)
+		return (line[i] == '\0' && line[i - 1] == '1');
+	return (0);
 }
 
 void	sanitize_line(char **line)
@@ -89,5 +81,10 @@ t_map	*parse_map(int fd)
 		lst = lst->next;
 	}
 	ft_lstclear(&lst_start, NULL);
+	i = 0;
+	while (i < map->width && (map->data[0][i] == '1') && (map->data[map->height - 1][i] == '1'))
+		i++;
+	if (i != map->width)
+		return (NULL);
 	return (map);
 }

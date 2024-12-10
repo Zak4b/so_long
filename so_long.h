@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:23:00 by asene             #+#    #+#             */
-/*   Updated: 2024/12/04 14:18:40 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/10 13:10:55 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,9 @@ int		key_down_hook(int keycode, t_game *game);
 int		key_up_hook(int keycode, t_game *game);
 int		close_window(t_game *game);
 int		game_loop(t_game *game);
+
+t_map	*init_map(void);
+void	clear_map(t_map *map);
 
 t_map	*parse_map(int fd);
 

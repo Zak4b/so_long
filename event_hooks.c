@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:31:59 by asene             #+#    #+#             */
-/*   Updated: 2024/12/04 14:04:44 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/10 13:10:52 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,8 @@ int	close_window(t_game *game)
 {
 	int	i;
 
-	i = 0;
-	while (i < game->map->height)
-		free(game->map->data[i++]);
-	free(game->map->data);
-	free(game->map);
+	mlx_do_key_autorepeaton(game->mlx);
+	clear_map(game->map);
 	i = 0;
 	while (i < 4)
 	{

@@ -6,14 +6,15 @@ RESET = \033[0m
 
 LIBFT = libft/libft.a
 
-FLAGS = -Wall -Wextra -Werror -g -O3
+FLAGS = -Wall -Wextra -Werror -g
 LIBFLAGS = -L./minilibx-linux -L/usr/lib -lmlx -lXext -lX11 -lm -lz
 
 SOURCES = \
         main.c \
         event_hooks.c \
         game.c \
-        map_parsing.c \
+		map_utils.c \
+        map_parser.c \
 		mlx_img_utils.c
 
 OBJDIR = obj
