@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:31:59 by asene             #+#    #+#             */
-/*   Updated: 2024/12/10 13:10:52 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/10 13:39:21 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	close_window(t_game *game)
 	free(game->floor);
 	mlx_destroy_image(game->mlx, game->wall->img);
 	free(game->wall);
+	mlx_destroy_image(game->mlx, game->item->img);
+	free(game->item);
 	mlx_destroy_window(game->mlx, game->mlx_win);
 	mlx_destroy_display(game->mlx);
 	free(game->mlx);

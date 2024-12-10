@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:23:00 by asene             #+#    #+#             */
-/*   Updated: 2024/12/10 13:10:55 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/10 14:38:54 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,20 @@ typedef struct s_player
 	int	mov;
 }	t_player;
 
+typedef struct s_point
+{
+	int	x;
+	int	y;
+} t_point;
+
 typedef struct s_map
 {
 	int		width;
 	int		height;
 	char	**data;
+	int		items;
+	t_point	entrance;
+	t_point	exit;
 }	t_map;
 
 typedef struct s_game
@@ -88,8 +97,11 @@ int		game_loop(t_game *game);
 
 t_map	*init_map(void);
 void	clear_map(t_map *map);
+t_map	*dup_map(t_map *map);
+t_point	new_point(int x, int y);
 
 t_map	*parse_map(int fd);
+int		check_map(t_map *map);
 
 void	print_map(t_game *game);
 int		move_player(t_game *game);

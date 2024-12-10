@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:57:27 by asene             #+#    #+#             */
-/*   Updated: 2024/12/10 13:05:40 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/10 13:34:36 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_list	*map_list(int fd, int *width, int *height)
 		{
 			*width = ft_strlen(line);
 			if (*width < 3)
-				return (free(line), exit(EXIT_FAILURE), NULL);
+				return (free(line), NULL);
 		}
 		else if ((size_t)(*width) != ft_strlen(line) || !line_is_valid(line))
 			return (free(line), ft_lstclear(&lst, free), NULL);
@@ -70,11 +70,11 @@ t_map	*parse_map(int fd)
 
 	map = init_map();
 	lst_start = map_list(fd, &(map->width), &(map->height));
+	if (lst_start == NULL)
+		return (NULL);
 	lst = lst_start;
 	i = 0;
 	map->data = ft_calloc(map->height + 1, sizeof(char *));
-	if (map->data == NULL)
-		return (ft_lstclear(&lst_start, free), NULL);
 	while (i < map->height)
 	{
 		map->data[i++] = lst->content;

@@ -6,28 +6,39 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:53:44 by asene             #+#    #+#             */
-/*   Updated: 2024/12/10 10:32:30 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/10 15:32:29 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-static int	solve_map(t_map *map, int x, int y)
+static int	solve_map(t_map *map, t_point p, int *entrance, int *exit)
 {
-	
+	if (p.x < 0 || p.x >= map->width || p.y < 0 || p.y >= map->height)
+		return (0);
+	if (map->data[p.y][p.x] == '1')
+		return (0);
+	else if (map->data[p.y][p.x] == 'C')
+		map->items--;
+	else if (map->data[p.y][p.x] == 'E')
+		(*exit)--;
+	else if (map->data[p.y][p.x] == 'P')
+		(*entrance)--;
+	map->data[p.y][p.x] = '1';
+	solve_map(map, new_point(p.x - 1, p.y), entrance, exit);
+	solve_map(map, new_point(p.x, p.y - 1), entrance, exit);
+	solve_map(map, new_point(p.x + 1, p.y), entrance, exit);
+	solve_map(map, new_point(p.x, p.y + 1), entrance, exit);
+	return (1);
 }
 
-void	find_entrance(t_map *map)
+void	count_specials(t_map *map, int *entrance, int *exit)
 {
 	int	x;
 	int	y;
-	int item;
-	int	exit;
-	int	entrance;
 
-	item = 0;
-	exit = 0;
-	entrance = 0;
+	*exit = 0;
+	*entrance = 0;
 	y = 0;
 	while (y < map->height)
 	{
@@ -35,31 +46,40 @@ void	find_entrance(t_map *map)
 		while (map->data[y][x])
 		{
 			if (map->data[y][x] == 'C')
-				item++;
+				map->items++;
 			else if (map->data[y][x] == 'E')
-				exit++;
+			{
+				map->exit = new_point(x, y);
+				(*exit)++;
+			}
 			else if (map->data[y][x] == 'P')
-				entrance++;
+			{
+				map->entrance = new_point(x, y);
+				(*entrance)++;
+			}
 			x++;
 		}
-		map->data[y];
 		y++;
 	}
 }
 
 int	check_map(t_map *map)
 {
-	int		i;
-	t_map	map_dup;
+	t_map	*map_dup;
+	int		entrance;
+	int		items;
+	int		exit;
 
-	map_dup.height = map->height;
-	map_dup.width = map->width;
-	map_dup.data = malloc(sizeof(char *) * map_dup.height);
-	i = 0;
-	while (i < map_dup.height)
-	{
-		map_dup.data[i] = ft_strdup(map->data[i]);
-		i++;
-	}
-	solve_map(&map_dup, 0, 0);
+	entrance = 0;
+	exit = 0;
+	count_specials(map, &entrance, &exit);
+	if (exit != 1 || entrance != 1 || map->items < 1)
+		return (0);
+	map_dup = dup_map(map);
+	solve_map(map_dup, map->entrance, &entrance, &exit);
+	items = map_dup->items;
+	clear_map(map_dup);
+	if (entrance != 0 || exit != 0 || items != 0)
+		return (0);
+	return (1);
 }

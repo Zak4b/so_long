@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 10:51:51 by asene             #+#    #+#             */
-/*   Updated: 2024/12/10 10:24:44 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/10 15:41:52 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,9 @@ int	main(int argc, char **argv)
 	close(fd);
 	if (game.map == NULL)
 		return (ft_fprintf(2, "Invalid map, parsing failed\n"), EXIT_FAILURE);
+	else if (!check_map(game.map))
+		return (clear_map(game.map),
+			ft_fprintf(2, "Invalid map, can't reach all items and exit\n"), 1);
 	init_game(&game);
 	mlx_loop(game.mlx);
 }

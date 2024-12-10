@@ -15,6 +15,7 @@ SOURCES = \
         game.c \
 		map_utils.c \
         map_parser.c \
+        map_checker.c \
 		mlx_img_utils.c
 
 OBJDIR = obj
