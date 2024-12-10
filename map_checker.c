@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:53:44 by asene             #+#    #+#             */
-/*   Updated: 2024/12/10 15:32:29 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/10 16:54:40 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ void	count_specials(t_map *map, int *entrance, int *exit)
 	int	x;
 	int	y;
 
-	*exit = 0;
-	*entrance = 0;
 	y = 0;
 	while (y < map->height)
 	{

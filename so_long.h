@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:23:00 by asene             #+#    #+#             */
-/*   Updated: 2024/12/10 14:38:54 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/10 18:21:52 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_game
 	t_img		*floor;
 	t_img		*wall;
 	t_img		*item;
+	t_img		*exit[2];
 }	t_game;
 
 typedef enum e_keycode
@@ -88,6 +89,7 @@ typedef enum e_direction
 t_img	*load_img(t_game *game, char *path);
 t_list	*load_sprites(t_game *game, char *path, unsigned int count);
 void	put_image(t_game *game, t_img *img, int x_offset, int y_offset);
+void	free_image(t_game *game, t_img *img);
 void	clear_lst_img(t_game *game, t_list **lst);
 
 int		key_down_hook(int keycode, t_game *game);
@@ -105,7 +107,8 @@ int		check_map(t_map *map);
 
 void	print_map(t_game *game);
 int		move_player(t_game *game);
-int		check_coords(t_map *map, int x, int y);
+int		pickup_item(t_game *game);
+char	check_coords(t_map *map, int x, int y);
 void	render_cell(t_game *game, int x, int y);
 
 #endif

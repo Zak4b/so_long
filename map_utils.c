@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 13:01:28 by asene             #+#    #+#             */
-/*   Updated: 2024/12/10 15:18:51 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/10 16:48:50 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ t_map	*init_map(void)
 	map->data = NULL;
 	return (map);
 }
+
 void	clear_map(t_map *map)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < map->height)

@@ -16,7 +16,8 @@ SOURCES = \
 		map_utils.c \
         map_parser.c \
         map_checker.c \
-		mlx_img_utils.c
+		mlx_img_utils.c \
+		mlx_img_utils2.c
 
 OBJDIR = obj
 OBJS = $(addprefix $(OBJDIR)/, $(SOURCES:.c=.o))

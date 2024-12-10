@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 10:51:51 by asene             #+#    #+#             */
-/*   Updated: 2024/12/10 15:41:52 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/10 18:05:33 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,13 @@ void	init_game(t_game *game)
 	game->floor = load_img(game, "./assets/grass.xpm");
 	game->wall = load_img(game, "./assets/wall.xpm");
 	game->item = load_img(game, "./assets/coin.xpm");
+	game->exit[0] = load_img(game, "./assets/trap0.xpm");
+	game->exit[1] = load_img(game, "./assets/trap1.xpm");
 	mlx_hook(game->mlx_win, 17, 0, close_window, game);
 	mlx_hook(game->mlx_win, 2, 1L << 0, key_down_hook, game);
 	mlx_hook(game->mlx_win, 3, 1L << 1, key_up_hook, game);
-	game->player.x = 1.5 * CELL_SIZE;
-	game->player.y = 1.5 * CELL_SIZE;
+	game->player.x = (game->map->entrance.x + 0.5) * CELL_SIZE;
+	game->player.y = (game->map->entrance.y + 0.5) * CELL_SIZE;
 	game->player.mov = 0;
 	game->player.dir = D_RIGHT;
 	mlx_loop_hook(game->mlx, game_loop, game);

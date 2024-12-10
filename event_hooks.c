@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:31:59 by asene             #+#    #+#             */
-/*   Updated: 2024/12/10 13:39:21 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/10 18:23:14 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,11 @@ int	close_window(t_game *game)
 		clear_lst_img(game, &(game->img[1][i]));
 		i++;
 	}
-	mlx_destroy_image(game->mlx, game->floor->img);
-	free(game->floor);
-	mlx_destroy_image(game->mlx, game->wall->img);
-	free(game->wall);
-	mlx_destroy_image(game->mlx, game->item->img);
-	free(game->item);
+	free_image(game, game->floor);
+	free_image(game, game->wall);
+	free_image(game, game->item);
+	free_image(game, game->exit[0]);
+	free_image(game, game->exit[1]);
 	mlx_destroy_window(game->mlx, game->mlx_win);
 	mlx_destroy_display(game->mlx);
 	free(game->mlx);
@@ -87,6 +86,15 @@ int	game_loop(t_game *game)
 			img = img->next;
 		print_map(game);
 		move_player(game);
+		pickup_item(game);
+		t_img	*e;
+		if (game->map->items != 0)
+			e = game->exit[0];
+		else
+			e = game->exit[1];
+		put_image(game, e,
+			game->map->exit.x * CELL_SIZE + (CELL_SIZE - e->width) / 2,
+			game->map->exit.y * CELL_SIZE + (CELL_SIZE - e->height) / 2);
 		put_image(game, img->content, game->player.x - 32, game->player.y - 32);
 		mlx_do_sync(game->mlx);
 	}

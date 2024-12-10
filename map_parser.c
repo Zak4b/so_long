@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:57:27 by asene             #+#    #+#             */
-/*   Updated: 2024/12/10 13:34:36 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/10 16:57:16 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ t_map	*parse_map(int fd)
 	}
 	ft_lstclear(&lst_start, NULL);
 	i = 0;
-	while (i < map->width && (map->data[0][i] == '1') && (map->data[map->height - 1][i] == '1'))
+	while (i < map->width && (map->data[0][i] == '1')
+		&& (map->data[map->height - 1][i] == '1'))
 		i++;
 	if (i != map->width)
 		return (NULL);
