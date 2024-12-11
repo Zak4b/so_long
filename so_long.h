@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:23:00 by asene             #+#    #+#             */
-/*   Updated: 2024/12/11 13:44:55 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/11 14:36:29 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_game
 	void		*mlx;
 	void		*mlx_win;
 	t_player	player;
+	int			move_count;
 	t_map		*map;
 	t_list		*img[2][4];
 	t_img		*floor;
@@ -88,6 +89,7 @@ typedef enum e_direction
 
 t_img	*load_img(t_game *game, char *path);
 t_list	*load_sprites(t_game *game, char *path, unsigned int count);
+char	*build_path(char const *s1, char const *s2, int j);
 void	put_image(t_game *game, t_img *img, int x_offset, int y_offset);
 void	free_image(t_game *game, t_img *img);
 void	clear_lst_img(t_game *game, t_list **lst);

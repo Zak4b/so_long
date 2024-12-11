@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 10:51:51 by asene             #+#    #+#             */
-/*   Updated: 2024/12/11 13:52:32 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/11 14:02:09 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	init_game(t_game *game)
 	game->player.y = (game->map->entrance.y + 0.5) * CELL_SIZE;
 	game->player.mov = 0;
 	game->player.dir = D_RIGHT;
+	game->move_count = 0;
 	mlx_loop_hook(game->mlx, game_loop, game);
 	mlx_do_key_autorepeatoff(game->mlx);
 	print_map(game);

@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:31:59 by asene             #+#    #+#             */
-/*   Updated: 2024/12/11 14:00:05 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/11 14:54:51 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,15 @@ int	game_loop(t_game *game)
 		time = 0;
 		render_arround(game, game->player.x / CELL_SIZE,
 			game->player.y / CELL_SIZE);
-		move_player(game);
+		if (move_player(game))
+		{
+			game->move_count++;
+			ft_printf("Move : %d \n", game->move_count);
+		}
 		if (pickup_item(game) && game->map->items == 0)
 			render_cell(game, game->map->exit.x, game->map->exit.y);
-		if (check_coords(game->map, game->player.x, game->player.y) == 'E')
+		if (game->map->items == 0
+			&& check_coords(game->map, game->player.x, game->player.y) == 'E')
 			close_window(game);
 		render_player(game, &t);
 		mlx_do_sync(game->mlx);
