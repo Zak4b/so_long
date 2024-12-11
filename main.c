@@ -6,32 +6,14 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 10:51:51 by asene             #+#    #+#             */
-/*   Updated: 2024/12/10 18:05:33 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/11 13:52:32 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	print_map(t_game *game)
+void	init_images(t_game *game)
 {
-	int		y;
-	int		x;
-
-	y = 0;
-	while (y < game->map->height)
-	{
-		x = 0;
-		while (x < game->map->width)
-			render_cell(game, x++, y);
-		y++;
-	}
-}
-
-void	init_game(t_game *game)
-{
-	game->mlx = mlx_init();
-	game->mlx_win = mlx_new_window(game->mlx, game->map->width * CELL_SIZE,
-			game->map->height * CELL_SIZE, "So Looooooooooong!");
 	game->img[0][D_DOWN] = load_sprites(game, "./assets/player/idle/pif", 6);
 	game->img[0][D_UP] = load_sprites(game, "./assets/player/idle/pib", 6);
 	game->img[0][D_RIGHT] = load_sprites(game, "./assets/player/idle/pir", 6);
@@ -45,6 +27,14 @@ void	init_game(t_game *game)
 	game->item = load_img(game, "./assets/coin.xpm");
 	game->exit[0] = load_img(game, "./assets/trap0.xpm");
 	game->exit[1] = load_img(game, "./assets/trap1.xpm");
+}
+
+void	init_game(t_game *game)
+{
+	game->mlx = mlx_init();
+	game->mlx_win = mlx_new_window(game->mlx, game->map->width * CELL_SIZE,
+			game->map->height * CELL_SIZE, "So Looooooooooong!");
+	init_images(game);
 	mlx_hook(game->mlx_win, 17, 0, close_window, game);
 	mlx_hook(game->mlx_win, 2, 1L << 0, key_down_hook, game);
 	mlx_hook(game->mlx_win, 3, 1L << 1, key_up_hook, game);
@@ -54,6 +44,7 @@ void	init_game(t_game *game)
 	game->player.dir = D_RIGHT;
 	mlx_loop_hook(game->mlx, game_loop, game);
 	mlx_do_key_autorepeatoff(game->mlx);
+	print_map(game);
 }
 
 int	main(int argc, char **argv)

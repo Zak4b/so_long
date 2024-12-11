@@ -6,28 +6,11 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 12:03:26 by asene             #+#    #+#             */
-/*   Updated: 2024/12/10 16:58:56 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/11 13:34:13 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-void	render_cell(t_game *g, int x, int y)
-{
-	t_img	*img;
-
-	if (y >= g->map->height || x >= g->map->width)
-		return ;
-	if (g->map->data[y][x] == '1')
-		img = g->wall;
-	else
-		img = g->floor;
-	mlx_put_image_to_window(g->mlx, g->mlx_win, img->img,
-		x * CELL_SIZE, y * CELL_SIZE);
-	if (g->map->data[y][x] == 'C')
-		put_image(g, g->item, x * CELL_SIZE + (CELL_SIZE - g->item->width) / 2,
-			y * CELL_SIZE + (CELL_SIZE - g->item->height) / 2);
-}
 
 char	check_coords(t_map *map, int x, int y)
 {

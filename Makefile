@@ -13,6 +13,7 @@ SOURCES = \
         main.c \
         event_hooks.c \
         game.c \
+		render.c \
 		map_utils.c \
         map_parser.c \
         map_checker.c \

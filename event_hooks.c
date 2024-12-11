@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:31:59 by asene             #+#    #+#             */
-/*   Updated: 2024/12/10 18:23:14 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/11 14:00:05 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,31 +71,18 @@ int	game_loop(t_game *game)
 {
 	static int	time = 0;
 	static int	t = 0;
-	t_list		*img;
-	int			i;
 
 	if (time % 3000 == 0)
 	{
 		time = 0;
-		t++;
-		if (t > 5)
-			t = 0;
-		i = 0;
-		img = game->img[game->player.mov][game->player.dir];
-		while (i++ < t)
-			img = img->next;
-		print_map(game);
+		render_arround(game, game->player.x / CELL_SIZE,
+			game->player.y / CELL_SIZE);
 		move_player(game);
-		pickup_item(game);
-		t_img	*e;
-		if (game->map->items != 0)
-			e = game->exit[0];
-		else
-			e = game->exit[1];
-		put_image(game, e,
-			game->map->exit.x * CELL_SIZE + (CELL_SIZE - e->width) / 2,
-			game->map->exit.y * CELL_SIZE + (CELL_SIZE - e->height) / 2);
-		put_image(game, img->content, game->player.x - 32, game->player.y - 32);
+		if (pickup_item(game) && game->map->items == 0)
+			render_cell(game, game->map->exit.x, game->map->exit.y);
+		if (check_coords(game->map, game->player.x, game->player.y) == 'E')
+			close_window(game);
+		render_player(game, &t);
 		mlx_do_sync(game->mlx);
 	}
 	time++;

@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:23:00 by asene             #+#    #+#             */
-/*   Updated: 2024/12/10 18:21:52 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/11 13:44:55 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,13 @@ t_point	new_point(int x, int y);
 t_map	*parse_map(int fd);
 int		check_map(t_map *map);
 
-void	print_map(t_game *game);
 int		move_player(t_game *game);
 int		pickup_item(t_game *game);
 char	check_coords(t_map *map, int x, int y);
+
 void	render_cell(t_game *game, int x, int y);
+void	render_arround(t_game *game, int x0, int y0);
+void	print_map(t_game *game);
+void	render_player(t_game *game, int *t);
 
 #endif
