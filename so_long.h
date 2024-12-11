@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:23:00 by asene             #+#    #+#             */
-/*   Updated: 2024/12/11 14:36:29 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/11 15:20:08 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_game
 	int			move_count;
 	t_map		*map;
 	t_list		*img[2][4];
+	t_img		**digits;
 	t_img		*floor;
 	t_img		*wall;
 	t_img		*item;
@@ -89,10 +90,12 @@ typedef enum e_direction
 
 t_img	*load_img(t_game *game, char *path);
 t_list	*load_sprites(t_game *game, char *path, unsigned int count);
+t_img	**load_sprites_array(t_game *game, char *path, unsigned int count);
 char	*build_path(char const *s1, char const *s2, int j);
 void	put_image(t_game *game, t_img *img, int x_offset, int y_offset);
 void	free_image(t_game *game, t_img *img);
 void	clear_lst_img(t_game *game, t_list **lst);
+void	clear_array_img(t_game *game, t_img **imgs);
 
 int		key_down_hook(int keycode, t_game *game);
 int		key_up_hook(int keycode, t_game *game);
@@ -115,5 +118,6 @@ void	render_cell(t_game *game, int x, int y);
 void	render_arround(t_game *game, int x0, int y0);
 void	print_map(t_game *game);
 void	render_player(t_game *game, int *t);
+void	render_move_count(t_game *game, unsigned int nb);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:31:59 by asene             #+#    #+#             */
-/*   Updated: 2024/12/11 14:54:51 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/11 15:20:28 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	close_window(t_game *game)
 	free_image(game, game->item);
 	free_image(game, game->exit[0]);
 	free_image(game, game->exit[1]);
+	clear_array_img(game, game->digits);
 	mlx_destroy_window(game->mlx, game->mlx_win);
 	mlx_destroy_display(game->mlx);
 	free(game->mlx);
@@ -88,6 +89,7 @@ int	game_loop(t_game *game)
 			&& check_coords(game->map, game->player.x, game->player.y) == 'E')
 			close_window(game);
 		render_player(game, &t);
+		render_move_count(game, game->move_count);
 		mlx_do_sync(game->mlx);
 	}
 	time++;

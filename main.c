@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 10:51:51 by asene             #+#    #+#             */
-/*   Updated: 2024/12/11 14:02:09 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/11 15:07:27 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	init_images(t_game *game)
 	game->item = load_img(game, "./assets/coin.xpm");
 	game->exit[0] = load_img(game, "./assets/trap0.xpm");
 	game->exit[1] = load_img(game, "./assets/trap1.xpm");
+	game->digits = load_sprites_array(game, "./assets/digits/", 10);
 }
 
 void	init_game(t_game *game)

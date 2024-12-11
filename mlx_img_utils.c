@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 11:35:22 by asene             #+#    #+#             */
-/*   Updated: 2024/12/10 18:14:07 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/11 15:08:11 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,25 @@ t_list	*load_sprites(t_game *game, char *path, unsigned int count)
 		i++;
 	}
 	return (lst);
+}
+
+t_img	**load_sprites_array(t_game *game, char *path, unsigned int count)
+{
+	unsigned int	i;
+	char			*full_path;
+	t_img			**imgs;
+
+	imgs = ft_calloc(count + 1, sizeof(t_img *));
+	i = 0;
+	while (i < count)
+	{
+		full_path = build_path(path, ".xpm", i);
+		imgs[i] = load_img(game, full_path);
+		free(full_path);
+		i++;
+	}
+	imgs[i] = NULL;
+	return (imgs);
 }
 
 void	put_image(t_game *game, t_img *img, int x0, int y0)
