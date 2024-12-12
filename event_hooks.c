@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:31:59 by asene             #+#    #+#             */
-/*   Updated: 2024/12/12 14:20:20 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/12 15:04:55 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,24 +73,18 @@ int	close_window(t_game *game)
 
 int	game_loop(t_game *game)
 {
-	static int	time = 0;
-
-	if (time % 3000 == 0)
-	{
-		time = 0;
-		print_map(game);
-		if (move_entity(game, game->player) && ++(game->move_count) % 10 == 0)
-			ft_printf("Move : %d \n", game->move_count / 10);
-		if (pickup_item(game) && game->map->items == 0)
-			render_cell(game, game->map->exit.x, game->map->exit.y);
-		if (game->map->items == 0
-			&& check_coords(game->map, game->player->x, game->player->y) == 'E')
-			close_window(game);
-		render_entity(game, game->player);
-		render_enemies(game);
-		render_move_count(game, game->move_count / 10);
-		mlx_do_sync(game->mlx);
-	}
-	time++;
+	print_map(game);
+	if (move_entity(game, game->player) && ++(game->move_count) % 10 == 0)
+		ft_printf("Move : %d \n", game->move_count / 10);
+	if (pickup_item(game) && game->map->items == 0)
+		render_cell(game, game->map->exit.x, game->map->exit.y);
+	if (game->map->items == 0
+		&& check_coords(game->map, game->player->x, game->player->y) == 'E')
+		close_window(game);
+	render_entity(game, game->player);
+	render_enemies(game);
+	render_move_count(game, game->move_count / 10);
+	mlx_do_sync(game->mlx);
+	usleep(50000);
 	return (1);
 }
