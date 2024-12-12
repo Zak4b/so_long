@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 11:37:01 by asene             #+#    #+#             */
-/*   Updated: 2024/12/12 14:17:21 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/12 14:32:11 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,10 @@ void	render_entity(t_game *game, t_entity *e)
 {
 	t_img	*img;
 
+	if (e->dir != e->last_dir || e->mov != e->last_mov)
+		e->anim_state = 0;
+	e->last_dir = e->dir;
+	e->last_mov = e->mov;
 	if (e->type == PLAYER)
 		img = game->img[e->mov][e->dir][e->anim_state++];
 	else

@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:23:00 by asene             #+#    #+#             */
-/*   Updated: 2024/12/12 14:13:51 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/12 14:29:12 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ typedef struct s_entity
 	int		mov;
 	t_type	type;
 	int		anim_state;
+	int		last_dir;
+	int		last_mov;
 }	t_entity;
 
 typedef struct s_point

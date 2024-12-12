@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 12:03:26 by asene             #+#    #+#             */
-/*   Updated: 2024/12/12 14:13:16 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/12 14:51:18 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ t_entity	*new_entity(t_type type, int x, int y)
 	e->x = x;
 	e->y = y;
 	e->mov = 0;
+	e->last_mov = e->mov;
 	e->dir = D_RIGHT;
+	e->last_dir = e->dir;
 	e->anim_state = 0;
 	return (e);
 }
