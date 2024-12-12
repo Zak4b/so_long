@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 10:51:51 by asene             #+#    #+#             */
-/*   Updated: 2024/12/11 15:07:27 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/12 14:17:39 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,41 @@ void	init_images(t_game *game)
 	game->img[1][D_UP] = load_sprites(game, "./assets/player/walk/pwb", 6);
 	game->img[1][D_RIGHT] = load_sprites(game, "./assets/player/walk/pwr", 6);
 	game->img[1][D_LEFT] = load_sprites(game, "./assets/player/walk/pwl", 6);
+	game->simg[D_DOWN] = load_sprites(game, "./assets/slime/sf", 6);
+	game->simg[D_UP] = load_sprites(game, "./assets/slime/sb", 6);
+	game->simg[D_RIGHT] = load_sprites(game, "./assets/slime/sr", 6);
+	game->simg[D_LEFT] = load_sprites(game, "./assets/slime/sl", 6);
 	game->floor = load_img(game, "./assets/grass.xpm");
 	game->wall = load_img(game, "./assets/wall.xpm");
 	game->item = load_img(game, "./assets/coin.xpm");
 	game->exit[0] = load_img(game, "./assets/trap0.xpm");
 	game->exit[1] = load_img(game, "./assets/trap1.xpm");
-	game->digits = load_sprites_array(game, "./assets/digits/", 10);
+	game->digits = load_sprites(game, "./assets/digits/", 10);
+}
+
+void	init_enemies(t_game *game)
+{
+	int			x;
+	int			y;
+	t_entity	*e;
+
+	game->enemies = NULL;
+	y = 0;
+	while (y < game->map->height)
+	{
+		x = 0;
+		while (game->map->data[y][x])
+		{
+			if (game->map->data[y][x] == 'M')
+			{
+				e = new_entity(MONSTER, (x + 0.5) * CELL_SIZE,
+						(y + 0.5) * CELL_SIZE);
+				ft_lstadd_back(&(game->enemies), ft_lstnew(e));
+			}
+			x++;
+		}
+		y++;
+	}
 }
 
 void	init_game(t_game *game)
@@ -39,14 +68,12 @@ void	init_game(t_game *game)
 	mlx_hook(game->mlx_win, 17, 0, close_window, game);
 	mlx_hook(game->mlx_win, 2, 1L << 0, key_down_hook, game);
 	mlx_hook(game->mlx_win, 3, 1L << 1, key_up_hook, game);
-	game->player.x = (game->map->entrance.x + 0.5) * CELL_SIZE;
-	game->player.y = (game->map->entrance.y + 0.5) * CELL_SIZE;
-	game->player.mov = 0;
-	game->player.dir = D_RIGHT;
+	game->player = new_entity(PLAYER, (game->map->entrance.x + 0.5) * CELL_SIZE,
+			(game->map->entrance.y + 0.5) * CELL_SIZE);
 	game->move_count = 0;
+	init_enemies(game);
 	mlx_loop_hook(game->mlx, game_loop, game);
 	mlx_do_key_autorepeatoff(game->mlx);
-	print_map(game);
 }
 
 int	main(int argc, char **argv)

@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:57:27 by asene             #+#    #+#             */
-/*   Updated: 2024/12/10 16:57:16 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/12 10:58:22 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	line_is_valid(const char *line)
 	i = 0;
 	if (line[i] != '1')
 		return (0);
-	while (line[i] && ft_strchr("01CEP", line[i]))
+	while (line[i] && ft_strchr("01CEPM", line[i]))
 		i++;
 	if (i >= 3)
 		return (line[i] == '\0' && line[i - 1] == '1');

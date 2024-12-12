@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:31:59 by asene             #+#    #+#             */
-/*   Updated: 2024/12/11 15:20:28 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/12 14:20:20 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 int	key_down_hook(int k, t_game *game)
 {
 	if (k == KEY_A || k == KEY_W || k == KEY_D || k == KEY_S)
-		game->player.mov = 1;
+		game->player->mov = 1;
 	if (k == KEY_A)
-		game->player.dir = D_LEFT;
+		game->player->dir = D_LEFT;
 	else if (k == KEY_W)
-		game->player.dir = D_UP;
+		game->player->dir = D_UP;
 	else if (k == KEY_D)
-		game->player.dir = D_RIGHT;
+		game->player->dir = D_RIGHT;
 	else if (k == KEY_S)
-		game->player.dir = D_DOWN;
+		game->player->dir = D_DOWN;
 	else if (k == KEY_ESC)
 		close_window(game);
 	return (0);
@@ -31,14 +31,14 @@ int	key_down_hook(int k, t_game *game)
 
 int	key_up_hook(int k, t_game *game)
 {
-	if (k == KEY_A && game->player.dir == D_LEFT)
-		game->player.mov = 0;
-	else if (k == KEY_W && game->player.dir == D_UP)
-		game->player.mov = 0;
-	else if (k == KEY_D && game->player.dir == D_RIGHT)
-		game->player.mov = 0;
-	else if (k == KEY_S && game->player.dir == D_DOWN)
-		game->player.mov = 0;
+	if (k == KEY_A && game->player->dir == D_LEFT)
+		game->player->mov = 0;
+	else if (k == KEY_W && game->player->dir == D_UP)
+		game->player->mov = 0;
+	else if (k == KEY_D && game->player->dir == D_RIGHT)
+		game->player->mov = 0;
+	else if (k == KEY_S && game->player->dir == D_DOWN)
+		game->player->mov = 0;
 	return (0);
 }
 
@@ -51,10 +51,13 @@ int	close_window(t_game *game)
 	i = 0;
 	while (i < 4)
 	{
-		clear_lst_img(game, &(game->img[0][i]));
-		clear_lst_img(game, &(game->img[1][i]));
+		clear_array_img(game, game->img[0][i]);
+		clear_array_img(game, game->img[1][i]);
+		clear_array_img(game, game->simg[i]);
 		i++;
 	}
+	free(game->player);
+	ft_lstclear(&game->enemies, free);
 	free_image(game, game->floor);
 	free_image(game, game->wall);
 	free_image(game, game->item);
@@ -71,25 +74,21 @@ int	close_window(t_game *game)
 int	game_loop(t_game *game)
 {
 	static int	time = 0;
-	static int	t = 0;
 
 	if (time % 3000 == 0)
 	{
 		time = 0;
-		render_arround(game, game->player.x / CELL_SIZE,
-			game->player.y / CELL_SIZE);
-		if (move_player(game))
-		{
-			game->move_count++;
-			ft_printf("Move : %d \n", game->move_count);
-		}
+		print_map(game);
+		if (move_entity(game, game->player) && ++(game->move_count) % 10 == 0)
+			ft_printf("Move : %d \n", game->move_count / 10);
 		if (pickup_item(game) && game->map->items == 0)
 			render_cell(game, game->map->exit.x, game->map->exit.y);
 		if (game->map->items == 0
-			&& check_coords(game->map, game->player.x, game->player.y) == 'E')
+			&& check_coords(game->map, game->player->x, game->player->y) == 'E')
 			close_window(game);
-		render_player(game, &t);
-		render_move_count(game, game->move_count);
+		render_entity(game, game->player);
+		render_enemies(game);
+		render_move_count(game, game->move_count / 10);
 		mlx_do_sync(game->mlx);
 	}
 	time++;
