@@ -6,32 +6,38 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 10:51:51 by asene             #+#    #+#             */
-/*   Updated: 2024/12/12 14:50:31 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/12 17:56:29 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	init_images(t_game *game)
+void	init_images(t_game *g)
 {
-	game->img[0][D_DOWN] = load_sprites(game, "./assets/player/idle/pif", 6);
-	game->img[0][D_UP] = load_sprites(game, "./assets/player/idle/pib", 6);
-	game->img[0][D_RIGHT] = load_sprites(game, "./assets/player/idle/pir", 6);
-	game->img[0][D_LEFT] = load_sprites(game, "./assets/player/idle/pil", 6);
-	game->img[1][D_DOWN] = load_sprites(game, "./assets/player/walk/pwf", 6);
-	game->img[1][D_UP] = load_sprites(game, "./assets/player/walk/pwb", 6);
-	game->img[1][D_RIGHT] = load_sprites(game, "./assets/player/walk/pwr", 6);
-	game->img[1][D_LEFT] = load_sprites(game, "./assets/player/walk/pwl", 6);
-	game->simg[D_DOWN] = load_sprites(game, "./assets/slime/sf", 6);
-	game->simg[D_UP] = load_sprites(game, "./assets/slime/sb", 6);
-	game->simg[D_RIGHT] = load_sprites(game, "./assets/slime/sr", 6);
-	game->simg[D_LEFT] = load_sprites(game, "./assets/slime/sl", 6);
-	game->floor = load_img(game, "./assets/grass.xpm");
-	game->wall = load_img(game, "./assets/wall.xpm");
-	game->item = load_img(game, "./assets/coin.xpm");
-	game->exit[0] = load_img(game, "./assets/trap0.xpm");
-	game->exit[1] = load_img(game, "./assets/trap1.xpm");
-	game->digits = load_sprites(game, "./assets/digits/", 10);
+	g->img[IDLE][D_DOWN] = load_sprites(g, "./assets/player/idle/pif", 6);
+	g->img[IDLE][D_UP] = load_sprites(g, "./assets/player/idle/pib", 6);
+	g->img[IDLE][D_RIGHT] = load_sprites(g, "./assets/player/idle/pir", 6);
+	g->img[IDLE][D_LEFT] = load_sprites(g, "./assets/player/idle/pil", 6);
+	g->img[WALK][D_DOWN] = load_sprites(g, "./assets/player/walk/pwf", 6);
+	g->img[WALK][D_UP] = load_sprites(g, "./assets/player/walk/pwb", 6);
+	g->img[WALK][D_RIGHT] = load_sprites(g, "./assets/player/walk/pwr", 6);
+	g->img[WALK][D_LEFT] = load_sprites(g, "./assets/player/walk/pwl", 6);
+	g->img[ATTACK][D_DOWN] = load_sprites(g, "./assets/player/attack/paf", 4);
+	g->img[ATTACK][D_UP] = load_sprites(g, "./assets/player/attack/pab", 4);
+	g->img[ATTACK][D_RIGHT] = load_sprites(g, "./assets/player/attack/par", 4);
+	g->img[ATTACK][D_LEFT] = load_sprites(g, "./assets/player/attack/pal", 4);
+	g->img[DEAD][0] = load_sprites(g, "./assets/player/death/pd", 3);
+	g->simg[WALK][D_DOWN] = load_sprites(g, "./assets/slime/sf", 6);
+	g->simg[WALK][D_UP] = load_sprites(g, "./assets/slime/sb", 6);
+	g->simg[WALK][D_RIGHT] = load_sprites(g, "./assets/slime/sr", 6);
+	g->simg[WALK][D_LEFT] = load_sprites(g, "./assets/slime/sl", 6);
+	g->simg[DEAD][0] = load_sprites(g, "./assets/slime/sd", 5);
+	g->floor = load_img(g, "./assets/grass.xpm");
+	g->wall = load_img(g, "./assets/wall.xpm");
+	g->item = load_img(g, "./assets/coin.xpm");
+	g->exit[0] = load_img(g, "./assets/trap0.xpm");
+	g->exit[1] = load_img(g, "./assets/trap1.xpm");
+	g->digits = load_sprites(g, "./assets/digits/", 10);
 }
 
 void	init_enemies(t_game *game)
@@ -51,7 +57,7 @@ void	init_enemies(t_game *game)
 			{
 				e = new_entity(MONSTER, (x + 0.5) * CELL_SIZE,
 						(y + 0.5) * CELL_SIZE);
-				e->mov = 1;
+				e->mov = WALK;
 				ft_lstadd_back(&(game->enemies), ft_lstnew(e));
 			}
 			x++;

@@ -6,21 +6,11 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 12:03:26 by asene             #+#    #+#             */
-/*   Updated: 2024/12/12 15:09:54 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/12 18:00:30 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-char	check_coords(t_map *map, int x, int y)
-{
-	t_point	p;
-
-	p = new_point(x / CELL_SIZE, y / CELL_SIZE);
-	if (p.y < 0 || p.y >= map->height || p.x < 0 || p.x >= map->width)
-		return (0);
-	return (map->data[p.y][p.x]);
-}
 
 t_entity	*new_entity(t_type type, int x, int y)
 {
@@ -30,7 +20,7 @@ t_entity	*new_entity(t_type type, int x, int y)
 	e->type = type;
 	e->x = x;
 	e->y = y;
-	e->mov = 0;
+	e->mov = IDLE;
 	e->last_mov = e->mov;
 	e->dir = D_RIGHT;
 	e->last_dir = e->dir;
@@ -45,7 +35,7 @@ int	move_entity(t_game *game, t_entity *e)
 	int			x;
 	int			y;
 
-	if (!e->mov)
+	if (e->mov != WALK)
 		return (0);
 	x = e->x + dx[e->dir];
 	y = e->y + dy[e->dir];
@@ -68,12 +58,39 @@ void	move_enemies(t_game *game)
 	while (lst != NULL)
 	{
 		e = lst->content;
-		if (move_entity(game, e) == 0)
+		if (e->mov != DEAD && move_entity(game, e) == 0)
 		{
 			if (e->dir == D_RIGHT)
 				e->dir = D_LEFT;
 			else
 				e->dir = D_RIGHT;
+		}
+		lst = lst->next;
+	}
+}
+
+void	check_collide(t_game *game)
+{
+	t_list		*lst;
+	t_entity	*e;
+	int			dx;
+	int			dy;
+
+	lst = game->enemies;
+	while (lst != NULL)
+	{
+		e = lst->content;
+		dx = game->player->x - e->x;
+		dy = game->player->y - e->y;
+		if (game->player->mov == ATTACK)
+		{
+			if (dx <= 48 && dx >= -48 && dy <= 48 && dy >= -48)
+				e->mov = DEAD;
+		}
+		if (e->mov != DEAD && dx <= 24 && dx >= -24 && dy <= 24 && dy >= -24)
+		{
+			game->player->mov = DEAD;
+			return ;
 		}
 		lst = lst->next;
 	}

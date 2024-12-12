@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 13:01:28 by asene             #+#    #+#             */
-/*   Updated: 2024/12/10 16:48:50 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/12 18:00:51 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,14 @@ t_point	new_point(int x, int y)
 	p.x = x;
 	p.y = y;
 	return (p);
+}
+
+char	check_coords(t_map *map, int x, int y)
+{
+	t_point	p;
+
+	p = new_point(x / CELL_SIZE, y / CELL_SIZE);
+	if (p.y < 0 || p.y >= map->height || p.x < 0 || p.x >= map->width)
+		return (0);
+	return (map->data[p.y][p.x]);
 }

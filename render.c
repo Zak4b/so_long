@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 11:37:01 by asene             #+#    #+#             */
-/*   Updated: 2024/12/12 14:32:11 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/12 17:59:41 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,19 +66,30 @@ void	print_map(t_game *game)
 
 void	render_entity(t_game *game, t_entity *e)
 {
-	t_img	*img;
+	t_img	**img_array;
+	int		d;
 
 	if (e->dir != e->last_dir || e->mov != e->last_mov)
 		e->anim_state = 0;
 	e->last_dir = e->dir;
 	e->last_mov = e->mov;
-	if (e->type == PLAYER)
-		img = game->img[e->mov][e->dir][e->anim_state++];
+	d = e->dir;
+	if (e->mov == DEAD)
+		d = 0;
+	if (e->type == MONSTER)
+		img_array = game->simg[e->mov][d];
 	else
-		img = game->simg[e->dir][e->anim_state++];
-	if (img == NULL)
+		img_array = game->img[e->mov][d];
+	if (img_array[e->anim_state] == NULL)
+	{
+		if (e->mov == ATTACK)
+			e->mov = IDLE;
 		return (e->anim_state = 0, render_entity(game, e));
-	put_image(game, img, e->x - 32, e->y - 32);
+	}
+	put_image(game, img_array[e->anim_state], e->x - 32, e->y - 32);
+	if (e->mov == DEAD && img_array[e->anim_state + 1] == NULL)
+		return ;
+	e->anim_state++;
 }
 
 void	render_enemies(t_game *game)
