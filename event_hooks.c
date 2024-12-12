@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:31:59 by asene             #+#    #+#             */
-/*   Updated: 2024/12/12 15:04:55 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/12 15:14:23 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	game_loop(t_game *game)
 	print_map(game);
 	if (move_entity(game, game->player) && ++(game->move_count) % 10 == 0)
 		ft_printf("Move : %d \n", game->move_count / 10);
+	move_enemies(game);
 	if (pickup_item(game) && game->map->items == 0)
 		render_cell(game, game->map->exit.x, game->map->exit.y);
 	if (game->map->items == 0

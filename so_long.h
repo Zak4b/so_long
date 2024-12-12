@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:23:00 by asene             #+#    #+#             */
-/*   Updated: 2024/12/12 14:29:12 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/12 15:10:13 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ int			check_map(t_map *map);
 
 t_entity	*new_entity(t_type type, int x, int y);
 int			move_entity(t_game *game, t_entity *e);
+void		move_enemies(t_game *game);
 int			pickup_item(t_game *game);
 char		check_coords(t_map *map, int x, int y);
 

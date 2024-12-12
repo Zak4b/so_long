@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 10:51:51 by asene             #+#    #+#             */
-/*   Updated: 2024/12/12 14:17:39 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/12 14:50:31 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	init_enemies(t_game *game)
 			{
 				e = new_entity(MONSTER, (x + 0.5) * CELL_SIZE,
 						(y + 0.5) * CELL_SIZE);
+				e->mov = 1;
 				ft_lstadd_back(&(game->enemies), ft_lstnew(e));
 			}
 			x++;

@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 12:03:26 by asene             #+#    #+#             */
-/*   Updated: 2024/12/12 14:51:18 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/12 15:09:54 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,26 @@ int	move_entity(t_game *game, t_entity *e)
 	e->x = x;
 	e->y = y;
 	return (1);
+}
+
+void	move_enemies(t_game *game)
+{
+	t_list		*lst;
+	t_entity	*e;
+
+	lst = game->enemies;
+	while (lst != NULL)
+	{
+		e = lst->content;
+		if (move_entity(game, e) == 0)
+		{
+			if (e->dir == D_RIGHT)
+				e->dir = D_LEFT;
+			else
+				e->dir = D_RIGHT;
+		}
+		lst = lst->next;
+	}
 }
 
 int	pickup_item(t_game *game)
