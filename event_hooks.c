@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:31:59 by asene             #+#    #+#             */
-/*   Updated: 2024/12/12 17:59:19 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/12 18:06:17 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	key_down_hook(int k, t_game *game)
 {
 	if (k == KEY_ESC)
 		close_window(game);
+	else if (game->player->mov == DEAD)
+		return (0);
 	else if (k == KEY_SPACE)
 		game->player->mov = ATTACK;
 	else if (game->player->mov == IDLE || game->player->mov == WALK)
@@ -96,8 +98,8 @@ int	game_loop(t_game *game)
 	if (game->map->items == 0
 		&& check_coords(game->map, game->player->x, game->player->y) == 'E')
 		close_window(game);
-	render_entity(game, game->player);
 	render_enemies(game);
+	render_entity(game, game->player);
 	render_move_count(game, game->move_count / 10);
 	mlx_do_sync(game->mlx);
 	usleep(50000);
