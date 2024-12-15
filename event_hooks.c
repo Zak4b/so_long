@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:31:59 by asene             #+#    #+#             */
-/*   Updated: 2024/12/12 18:06:17 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/14 11:48:55 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	free_all_images(t_game *game)
 	clear_array_img(game, game->img[DEAD][0]);
 	clear_array_img(game, game->simg[DEAD][0]);
 	clear_array_img(game, game->digits);
+	free_image(game, game->buffer);
 	free_image(game, game->floor);
 	free_image(game, game->wall);
 	free_image(game, game->item);
@@ -88,6 +89,9 @@ int	close_window(t_game *game)
 
 int	game_loop(t_game *game)
 {
+    clock_t time;
+
+	time = clock();
 	print_map(game);
 	if (move_entity(game, game->player) && ++(game->move_count) % 10 == 0)
 		ft_printf("Move : %d \n", game->move_count / 10);
@@ -101,7 +105,10 @@ int	game_loop(t_game *game)
 	render_enemies(game);
 	render_entity(game, game->player);
 	render_move_count(game, game->move_count / 10);
+	mlx_put_image_to_window(game->mlx, game->mlx_win, game->buffer[0].img ,0 ,0);
 	mlx_do_sync(game->mlx);
-	usleep(50000);
+	time = 55000  - (clock() - time) * 1000000 / CLOCKS_PER_SEC;
+	if (time > 0)
+		usleep(time);
 	return (1);
 }

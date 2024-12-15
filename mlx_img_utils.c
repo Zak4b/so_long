@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 11:35:22 by asene             #+#    #+#             */
-/*   Updated: 2024/12/12 12:17:49 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/14 10:32:52 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,14 @@ t_img	**load_sprites(t_game *game, char *path, unsigned int count)
 	return (imgs);
 }
 
+void    put_pixel(t_game *game, int x, int y, int color)
+{
+    char    *dst;
+
+    dst = game->buffer->addr + (y * game->buffer->line_length + x * (game->buffer->bpp / 8));
+    *(int*)dst = color;
+}
+
 void	put_image(t_game *game, t_img *img, int x0, int y0)
 {
 	int	x;
@@ -78,7 +86,7 @@ void	put_image(t_game *game, t_img *img, int x0, int y0)
 		{
 			color = img_data[y * (img->line_length / 4) + x];
 			if ((color >> 24 & 0xFF) == 0)
-				mlx_pixel_put(game->mlx, game->mlx_win, x + x0, y + y0, color);
+				put_pixel(game, x + x0, y + y0, color);
 			x++;
 		}
 		y++;

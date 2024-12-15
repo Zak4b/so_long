@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:23:00 by asene             #+#    #+#             */
-/*   Updated: 2024/12/12 17:09:45 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/14 11:44:49 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_game
 	t_entity	*player;
 	int			move_count;
 	t_map		*map;
+	t_img		*buffer;
 	t_img		**img[4][4];
 	t_img		**simg[4][4];
 	t_list		*enemies;

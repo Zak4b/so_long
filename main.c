@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 10:51:51 by asene             #+#    #+#             */
-/*   Updated: 2024/12/12 17:56:29 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/14 11:03:17 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,26 @@ void	init_enemies(t_game *game)
 	}
 }
 
+void	init_buffer(t_game *game, int width, int height)
+{
+	game->buffer = ft_calloc(1, sizeof(t_img));
+	game->buffer->img = mlx_new_image(game->mlx, width, height);
+	game->buffer->addr = mlx_get_data_addr(game->buffer->img,
+		&game->buffer->bpp, &game->buffer->line_length, &game->buffer->endian);
+}
+
 void	init_game(t_game *game)
 {
+	int	win_width;
+	int	win_height;
+
+	win_width = game->map->width * CELL_SIZE;
+	win_height = game->map->height * CELL_SIZE;
 	game->mlx = mlx_init();
-	game->mlx_win = mlx_new_window(game->mlx, game->map->width * CELL_SIZE,
-			game->map->height * CELL_SIZE, "So Looooooooooong!");
+	game->mlx_win = mlx_new_window(game->mlx, win_width,
+			win_height, "So Looooooooooong!");
 	init_images(game);
+	init_buffer(game, win_width, win_height);
 	mlx_hook(game->mlx_win, 17, 0, close_window, game);
 	mlx_hook(game->mlx_win, 2, 1L << 0, key_down_hook, game);
 	mlx_hook(game->mlx_win, 3, 1L << 1, key_up_hook, game);
