@@ -5,6 +5,7 @@ RED = \033[31m
 RESET = \033[0m
 
 LIBFT = libft/libft.a
+MLX = minilibx-linux/libmlx.a
 
 FLAGS = -Wall -Wextra -Werror -g
 LIBFLAGS = -L./minilibx-linux -L/usr/lib -lmlx -lXext -lX11 -lm -lz
@@ -23,9 +24,9 @@ SOURCES = \
 OBJDIR = obj
 OBJS = $(addprefix $(OBJDIR)/, $(SOURCES:.c=.o))
 
-$(NAME): $(LIBFT) $(OBJS)
+$(NAME): $(LIBFT) $(MLX) $(OBJS)
 	@echo "$(GREEN)Compiling $(NAME)...$(RESET)"
-	@cc $(FLAGS) -o $(NAME) $(OBJS) $(LIBFLAGS) $(LIBFT) minilibx-linux/libmlx.a
+	@cc $(FLAGS) -o $(NAME) $(OBJS) $(LIBFLAGS) $(LIBFT) $(MLX)
 	@echo "$(GREEN)Compilation finished successfully!$(RESET)"
 
 all: $(NAME)
@@ -40,6 +41,10 @@ $(OBJDIR)/%.o: %.c | $(OBJDIR)
 $(LIBFT):
 	@echo "$(GREEN)Building Libft...$(RESET)"
 	@make -C libft all
+
+$(MLX):
+	@echo "$(GREEN)Building minilibx...$(RESET)"
+	@make -C minilibx-linux all
 
 clean:
 	@echo "$(RED)Cleaning object files...$(RESET)"
