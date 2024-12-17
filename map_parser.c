@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:57:27 by asene             #+#    #+#             */
-/*   Updated: 2024/12/12 10:58:22 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/16 11:44:56 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,9 @@ t_list	*map_list(int fd, int *width, int *height)
 			break ;
 		sanitize_line(&line);
 		if (*width == -1)
-		{
 			*width = ft_strlen(line);
-			if (*width < 3)
-				return (free(line), NULL);
-		}
-		else if ((size_t)(*width) != ft_strlen(line) || !line_is_valid(line))
+		else if ((size_t)(*width) != ft_strlen(line) || ft_strlen(line) < 3
+			|| !line_is_valid(line))
 			return (free(line), ft_lstclear(&lst, free), NULL);
 		ft_lstadd_back(&lst, ft_lstnew(line));
 		(*height)++;
@@ -71,7 +68,7 @@ t_map	*parse_map(int fd)
 	map = init_map();
 	lst_start = map_list(fd, &(map->width), &(map->height));
 	if (lst_start == NULL)
-		return (NULL);
+		return (free(map), NULL);
 	lst = lst_start;
 	i = 0;
 	map->data = ft_calloc(map->height + 1, sizeof(char *));
@@ -86,6 +83,6 @@ t_map	*parse_map(int fd)
 		&& (map->data[map->height - 1][i] == '1'))
 		i++;
 	if (i != map->width)
-		return (NULL);
+		return (clear_map(map), NULL);
 	return (map);
 }

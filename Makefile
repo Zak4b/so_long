@@ -5,10 +5,11 @@ RED = \033[31m
 RESET = \033[0m
 
 LIBFT = libft/libft.a
-MLX = minilibx-linux/libmlx.a
+MLX_FOLDER = minilibx-linux
+MLX = $(MLX_FOLDER)/libmlx.a
 
 FLAGS = -Wall -Wextra -Werror -g
-LIBFLAGS = -L./minilibx-linux -L/usr/lib -lmlx -lXext -lX11 -lm -lz
+LIBFLAGS = -L./$(MLX_FOLDER) -L/usr/lib -lmlx -lXext -lX11 -lm -lz
 
 SOURCES = \
         main.c \
@@ -19,7 +20,8 @@ SOURCES = \
         map_parser.c \
         map_checker.c \
 		mlx_img_utils.c \
-		mlx_img_utils2.c
+		mlx_img_utils2.c \
+		distance.c
 
 OBJDIR = obj
 OBJS = $(addprefix $(OBJDIR)/, $(SOURCES:.c=.o))
@@ -36,28 +38,29 @@ $(OBJDIR):
 
 $(OBJDIR)/%.o: %.c | $(OBJDIR)
 	@echo "$(GREEN)Compiling $<...$(RESET)"
-	@cc $(FLAGS) -Iminilibx-linux -Ilibft -c $< -o $@
+	@cc $(FLAGS) -I$(MLX_FOLDER)linux -Ilibft -c $< -o $@
 
 $(LIBFT):
 	@echo "$(GREEN)Building Libft...$(RESET)"
-	@make -C libft all
+	@make -s -C libft all
 
 $(MLX):
 	@echo "$(GREEN)Building minilibx...$(RESET)"
-	@make -C minilibx-linux all
+	@make -s -C $(MLX_FOLDER) all
 
 clean:
 	@echo "$(RED)Cleaning object files...$(RESET)"
 	@rm -rf $(OBJDIR)
-	@make -C libft clean
 
 fclean: clean
 	@echo "$(RED)Cleaning all...$(RESET)"
 	@rm -f $(NAME)
+	@make -s -C $(MLX_FOLDER) clean
+	@make -s -C libft fclean
 
 re: fclean all
 
 norm:
-	norminette $(SOURCES)
+	norminette $(SOURCES) libft so_long.h
 
 .PHONY: all clean fclean re

@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 12:03:26 by asene             #+#    #+#             */
-/*   Updated: 2024/12/12 18:00:30 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/16 13:46:46 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,21 +73,19 @@ void	check_collide(t_game *game)
 {
 	t_list		*lst;
 	t_entity	*e;
-	int			dx;
-	int			dy;
+	int			d;
 
 	lst = game->enemies;
 	while (lst != NULL)
 	{
 		e = lst->content;
-		dx = game->player->x - e->x;
-		dy = game->player->y - e->y;
+		d = distance_entity(game->player, e);
 		if (game->player->mov == ATTACK)
 		{
-			if (dx <= 48 && dx >= -48 && dy <= 48 && dy >= -48)
+			if (d <= 48)
 				e->mov = DEAD;
 		}
-		if (e->mov != DEAD && dx <= 24 && dx >= -24 && dy <= 24 && dy >= -24)
+		if (e->mov != DEAD && d <= 24)
 		{
 			game->player->mov = DEAD;
 			return ;
@@ -98,14 +96,19 @@ void	check_collide(t_game *game)
 
 int	pickup_item(t_game *game)
 {
+	int	cell_x;
+	int	cell_y;
 	int	x;
 	int	y;
 
-	if (check_coords(game->map, game->player->x, game->player->y) != 'C')
+	cell_x = game->player->x / CELL_SIZE;
+	cell_y = game->player->y / CELL_SIZE;
+	x = (cell_x +.5) * CELL_SIZE;
+	y = (cell_y +.5) * CELL_SIZE;
+	if (distance(game->player->x, game->player->y, x, y) > 16
+		|| game->map->data[cell_y][cell_x] != 'C')
 		return (0);
-	x = game->player->x / CELL_SIZE;
-	y = game->player->y / CELL_SIZE;
-	game->map->data[y][x] = '0';
+	game->map->data[cell_y][cell_x] = '0';
 	game->map->items--;
 	return (1);
 }

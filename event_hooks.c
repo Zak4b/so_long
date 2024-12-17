@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:31:59 by asene             #+#    #+#             */
-/*   Updated: 2024/12/14 11:48:55 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/16 13:28:52 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	close_window(t_game *game)
 
 int	game_loop(t_game *game)
 {
-    clock_t time;
+	clock_t	time;
 
 	time = clock();
 	print_map(game);
@@ -99,15 +99,14 @@ int	game_loop(t_game *game)
 	check_collide(game);
 	if (pickup_item(game) && game->map->items == 0)
 		render_cell(game, game->map->exit.x, game->map->exit.y);
-	if (game->map->items == 0
-		&& check_coords(game->map, game->player->x, game->player->y) == 'E')
+	if (game->map->items == 0 && distance_to_exit(game) <= 8)
 		close_window(game);
 	render_enemies(game);
 	render_entity(game, game->player);
 	render_move_count(game, game->move_count / 10);
-	mlx_put_image_to_window(game->mlx, game->mlx_win, game->buffer[0].img ,0 ,0);
+	mlx_put_image_to_window(game->mlx, game->mlx_win, game->buffer->img, 0, 0);
 	mlx_do_sync(game->mlx);
-	time = 55000  - (clock() - time) * 1000000 / CLOCKS_PER_SEC;
+	time = 55000 - (clock() - time) * 1000000 / CLOCKS_PER_SEC;
 	if (time > 0)
 		usleep(time);
 	return (1);

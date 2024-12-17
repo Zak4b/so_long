@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:23:00 by asene             #+#    #+#             */
-/*   Updated: 2024/12/14 11:44:49 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/16 15:49:29 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <time.h>
+# include <math.h>
 # include "minilibx-linux/mlx.h"
 
 # define CELL_SIZE 80
@@ -55,7 +56,7 @@ typedef struct s_point
 {
 	int	x;
 	int	y;
-} t_point;
+}	t_point;
 
 typedef struct s_map
 {
@@ -137,6 +138,10 @@ void		move_enemies(t_game *game);
 void		check_collide(t_game *game);
 int			pickup_item(t_game *game);
 char		check_coords(t_map *map, int x, int y);
+
+int			distance(int x1, int y1, int x2, int y2);
+int			distance_to_exit(t_game *game);
+int			distance_entity(t_entity *e1, t_entity *e2);
 
 void		render_cell(t_game *game, int x, int y);
 void		render_arround(t_game *game, int x0, int y0);

@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 10:51:51 by asene             #+#    #+#             */
-/*   Updated: 2024/12/14 11:03:17 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/16 11:46:48 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ void	init_buffer(t_game *game, int width, int height)
 	game->buffer = ft_calloc(1, sizeof(t_img));
 	game->buffer->img = mlx_new_image(game->mlx, width, height);
 	game->buffer->addr = mlx_get_data_addr(game->buffer->img,
-		&game->buffer->bpp, &game->buffer->line_length, &game->buffer->endian);
+			&game->buffer->bpp,
+			&game->buffer->line_length,
+			&game->buffer->endian);
 }
 
 void	init_game(t_game *game)
@@ -109,6 +111,7 @@ int	main(int argc, char **argv)
 		return (ft_fprintf(2, "Can't open file \"%s\"\n", argv[1]), 1);
 	game.map = parse_map(fd);
 	close(fd);
+	get_next_line(fd);
 	if (game.map == NULL)
 		return (ft_fprintf(2, "Invalid map, parsing failed\n"), EXIT_FAILURE);
 	else if (!check_map(game.map))

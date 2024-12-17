@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 14:24:40 by asene             #+#    #+#             */
-/*   Updated: 2024/11/15 11:12:40 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/16 13:07:20 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,14 @@ char	*get_next_line(int fd)
 	int			eol;
 
 	if (fd < 0 || read(fd, 0, 0) < 0)
+	{
+		if (buffer)
+		{
+			free(buffer);
+			buffer = NULL;
+		}
 		return (NULL);
+	}
 	eol = read_file_to_next_line(fd, &buffer);
 	if (eol >= 0)
 	{
@@ -83,10 +90,6 @@ char	*get_next_line(int fd)
 		move_buffer(&buffer, eol);
 	}
 	else
-	{
-		line = NULL;
-		free(buffer);
-		buffer = NULL;
-	}
+		return (free(buffer), buffer = NULL, NULL);
 	return (line);
 }
