@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:23:00 by asene             #+#    #+#             */
-/*   Updated: 2024/12/21 22:44:28 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/22 00:15:05 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ t_map		*dup_map(t_map *map);
 t_point		new_point(int x, int y);
 
 t_map		*parse_map(int fd);
-int			check_map(t_map *map);
+int			check_map(t_map *map, int *status);
 
 t_entity	*new_entity(t_type type, int x, int y);
 int			move_entity(t_game *game, t_entity *e);

@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 10:51:51 by asene             #+#    #+#             */
-/*   Updated: 2024/12/21 22:45:12 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/22 00:34:14 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,6 @@ void	init_enemies(t_game *game)
 	}
 }
 
-void	init_buffer(t_game *game, int width, int height)
-{
-	game->buffer[0] = new_image(game->mlx, width, height);
-	game->buffer[1] = new_image(game->mlx, width, height);
-	print_map(game);
-}
-
 void	init_game(t_game *game)
 {
 	int	win_width;
@@ -84,7 +77,9 @@ void	init_game(t_game *game)
 	game->mlx_win = mlx_new_window(game->mlx, win_width,
 			win_height, "So Looooooooooong!");
 	init_images(game);
-	init_buffer(game, win_width, win_height);
+	game->buffer[0] = new_image(game->mlx, win_width, win_height);
+	game->buffer[1] = new_image(game->mlx, win_width, win_height);
+	print_map(game);
 	mlx_hook(game->mlx_win, 17, 0, close_window, game);
 	mlx_hook(game->mlx_win, 2, 1L << 0, key_down_hook, game);
 	mlx_hook(game->mlx_win, 3, 1L << 1, key_up_hook, game);
@@ -96,11 +91,26 @@ void	init_game(t_game *game)
 	mlx_do_key_autorepeatoff(game->mlx);
 }
 
+char	*get_error_msg(int code)
+{
+	const char	*msgs[] = {
+		"not enough items",
+		"need at least 1 entrance and 1 exit",
+		"can't reach all items and exit"
+	};
+
+	if (code && code <= 3)
+		return ((char *)msgs[code - 1]);
+	return ("");
+}
+
 int	main(int argc, char **argv)
 {
 	int		fd;
 	t_game	game;
+	int		status_code;
 
+	status_code = 0;
 	if (argc != 2)
 		return (ft_fprintf(2, "Usage: %s <FILE>\n", argv[0]), EXIT_FAILURE);
 	fd = open(argv[1], O_RDONLY);
@@ -111,9 +121,9 @@ int	main(int argc, char **argv)
 	get_next_line(fd);
 	if (game.map == NULL)
 		return (ft_fprintf(2, "Invalid map, parsing failed\n"), EXIT_FAILURE);
-	else if (!check_map(game.map))
+	else if (!check_map(game.map, &status_code))
 		return (clear_map(game.map),
-			ft_fprintf(2, "Invalid map, can't reach all items and exit\n"), 1);
+			ft_fprintf(2, "Invalid map, %s\n", get_error_msg(status_code)), 1);
 	init_game(&game);
 	mlx_loop(game.mlx);
 }
