@@ -34,6 +34,7 @@ void	clear_array_img(t_game *game, t_img **imgs)
 t_img	*new_image(void *mlx, int width, int height)
 {
 	t_img	*i;
+
 	i = ft_calloc(1, sizeof(t_img));
 	i->img = mlx_new_image(mlx, width, height);
 	i->addr = mlx_get_data_addr(i->img,

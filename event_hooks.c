@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:31:59 by asene             #+#    #+#             */
-/*   Updated: 2024/12/21 22:34:50 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/21 23:59:33 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,29 +88,28 @@ int	close_window(t_game *game)
 	return (0);
 }
 
-int	game_loop(t_game *game)
+int	game_loop(t_game *g)
 {
 	clock_t	time;
 
 	time = clock();
-	ft_memcpy(game->buffer[1]->addr, game->buffer[0]->addr,
-		game->buffer[0]->height * game->buffer[0]->line_length);
-	move_entity(game, game->player);
-	move_enemies(game);
-	check_collide(game);
-	if (pickup_item(game) && game->map->items == 0)
+	ft_memcpy(g->buffer[1]->addr, g->buffer[0]->addr,
+		g->buffer[0]->height * g->buffer[0]->line_length);
+	move_entity(g, g->player);
+	move_enemies(g);
+	check_collide(g);
+	if (pickup_item(g) && g->map->items == 0)
 	{
-		render_cell(game, game->player->x / CELL_SIZE,
-			game->player->y / CELL_SIZE);
-		render_cell(game, game->map->exit.x, game->map->exit.y);
+		render_cell(g, g->player->x / CELL_SIZE, g->player->y / CELL_SIZE);
+		render_cell(g, g->map->exit.x, g->map->exit.y);
 	}
-	if (game->map->items == 0 && distance_to_exit(game) <= 8)
-		close_window(game);
-	render_enemies(game);
-	render_entity(game, game->player);
-	render_move_count(game, game->move_count / 10);
-	mlx_put_image_to_window(game->mlx, game->mlx_win, game->buffer[1]->img, 0, 0);
-	mlx_do_sync(game->mlx);
+	if (g->map->items == 0 && distance_to_exit(g) <= 8)
+		close_window(g);
+	render_enemies(g);
+	render_entity(g, g->player);
+	render_move_count(g, g->move_count / 10);
+	mlx_put_image_to_window(g->mlx, g->mlx_win, g->buffer[1]->img, 0, 0);
+	mlx_do_sync(g->mlx);
 	time = 55000 - (clock() - time) * 1000000 / CLOCKS_PER_SEC;
 	if (time > 0)
 		usleep(time);
