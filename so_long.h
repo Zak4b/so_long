@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:23:00 by asene             #+#    #+#             */
-/*   Updated: 2024/12/16 15:49:29 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/21 22:44:28 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ typedef struct s_game
 	t_entity	*player;
 	int			move_count;
 	t_map		*map;
-	t_img		*buffer;
+	t_img		*buffer[2];
 	t_img		**img[4][4];
 	t_img		**simg[4][4];
 	t_list		*enemies;
@@ -115,7 +115,8 @@ typedef enum e_state
 t_img		*load_img(t_game *game, char *path);
 t_img		**load_sprites(t_game *game, char *path, unsigned int count);
 char		*build_path(char const *s1, char const *s2, int j);
-void		put_image(t_game *game, t_img *img, int x_offset, int y_offset);
+void		put_image(t_img *dest, t_img *img, int x0, int y0);
+t_img		*new_image(void *mlx, int width, int height);
 void		free_image(t_game *game, t_img *img);
 void		clear_array_img(t_game *game, t_img **imgs);
 

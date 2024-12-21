@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 10:51:51 by asene             #+#    #+#             */
-/*   Updated: 2024/12/16 11:46:48 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/21 22:45:12 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,9 @@ void	init_enemies(t_game *game)
 
 void	init_buffer(t_game *game, int width, int height)
 {
-	game->buffer = ft_calloc(1, sizeof(t_img));
-	game->buffer->img = mlx_new_image(game->mlx, width, height);
-	game->buffer->addr = mlx_get_data_addr(game->buffer->img,
-			&game->buffer->bpp,
-			&game->buffer->line_length,
-			&game->buffer->endian);
+	game->buffer[0] = new_image(game->mlx, width, height);
+	game->buffer[1] = new_image(game->mlx, width, height);
+	print_map(game);
 }
 
 void	init_game(t_game *game)

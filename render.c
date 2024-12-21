@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 11:37:01 by asene             #+#    #+#             */
-/*   Updated: 2024/12/14 10:46:34 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/21 22:27:46 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,31 +22,16 @@ void	render_cell(t_game *g, int x, int y)
 		img = g->wall;
 	else
 		img = g->floor;
-	put_image(g, img, x * CELL_SIZE, y * CELL_SIZE);
+	put_image(g->buffer[0], img, x * CELL_SIZE, y * CELL_SIZE);
 	if (g->map->data[y][x] == 'C')
-		put_image(g, g->item, x * CELL_SIZE + (CELL_SIZE - g->item->width) / 2,
+		put_image(g->buffer[0], g->item,
+			x * CELL_SIZE + (CELL_SIZE - g->item->width) / 2,
 			y * CELL_SIZE + (CELL_SIZE - g->item->height) / 2);
 	else if (g->map->data[y][x] == 'E')
-		put_image(g, g->exit[g->map->items == 0],
+		put_image(g->buffer[0], g->exit[g->map->items == 0],
 			g->map->exit.x * CELL_SIZE + (CELL_SIZE - g->exit[0]->width) / 2,
 			g->map->exit.y * CELL_SIZE + (CELL_SIZE - g->exit[0]->height) / 2);
 }
-/*
-void	render_arround(t_game *game, int x0, int y0)
-{
-	int	x;
-	int	y;
-
-	y = y0 - 1;
-	while (y <= y0 + 1)
-	{
-		x = x0 - 1;
-		while (x <= x0 + 1)
-			render_cell(game, x++, y);
-		y++;
-	}
-}
-*/
 
 void	print_map(t_game *game)
 {
@@ -85,7 +70,7 @@ void	render_entity(t_game *game, t_entity *e)
 			e->mov = IDLE;
 		return (e->anim_state = 0, render_entity(game, e));
 	}
-	put_image(game, img_array[e->anim_state], e->x - 32, e->y - 32);
+	put_image(game->buffer[1], img_array[e->anim_state], e->x - 32, e->y - 32);
 	if (e->mov == DEAD && img_array[e->anim_state + 1] == NULL)
 		return ;
 	e->anim_state++;
@@ -112,7 +97,7 @@ void	render_move_count(t_game *game, unsigned int nb)
 	y = CELL_SIZE * (game->map->height) - game->digits[0]->height * 1.5;
 	while (1)
 	{
-		put_image(game, game->digits[nb % 10], x, y);
+		put_image(game->buffer[1], game->digits[nb % 10], x, y);
 		x -= 1.5 * game->digits[nb % 10]->width;
 		nb /= 10;
 		if (nb == 0)

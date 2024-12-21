@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 11:35:22 by asene             #+#    #+#             */
-/*   Updated: 2024/12/16 11:07:16 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/21 22:11:21 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,16 @@ t_img	**load_sprites(t_game *game, char *path, unsigned int count)
 	return (imgs);
 }
 
-void	put_pixel(t_game *game, int x, int y, int color)
+void	put_pixel(t_img *img, int x, int y, int color)
 {
 	char	*dst;
 
-	dst = game->buffer->addr
-		+ (y * game->buffer->line_length + x * (game->buffer->bpp / 8));
+	dst = img->addr
+		+ (y * img->line_length + x * (img->bpp / 8));
 	*(int *)dst = color;
 }
 
-void	put_image(t_game *game, t_img *img, int x0, int y0)
+void	put_image(t_img *dest, t_img *img, int x0, int y0)
 {
 	int	x;
 	int	y;
@@ -87,7 +87,7 @@ void	put_image(t_game *game, t_img *img, int x0, int y0)
 		{
 			color = img_data[y * (img->line_length / 4) + x];
 			if ((color >> 24 & 0xFF) == 0)
-				put_pixel(game, x + x0, y + y0, color);
+				put_pixel(dest, x + x0, y + y0, color);
 			x++;
 		}
 		y++;

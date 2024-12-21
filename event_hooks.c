@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:31:59 by asene             #+#    #+#             */
-/*   Updated: 2024/12/16 13:28:52 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/21 22:34:50 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ void	free_all_images(t_game *game)
 	clear_array_img(game, game->img[DEAD][0]);
 	clear_array_img(game, game->simg[DEAD][0]);
 	clear_array_img(game, game->digits);
-	free_image(game, game->buffer);
+	free_image(game, game->buffer[0]);
+	free_image(game, game->buffer[1]);
 	free_image(game, game->floor);
 	free_image(game, game->wall);
 	free_image(game, game->item);
@@ -92,19 +93,23 @@ int	game_loop(t_game *game)
 	clock_t	time;
 
 	time = clock();
-	print_map(game);
-	if (move_entity(game, game->player) && ++(game->move_count) % 10 == 0)
-		ft_printf("Move : %d \n", game->move_count / 10);
+	ft_memcpy(game->buffer[1]->addr, game->buffer[0]->addr,
+		game->buffer[0]->height * game->buffer[0]->line_length);
+	move_entity(game, game->player);
 	move_enemies(game);
 	check_collide(game);
 	if (pickup_item(game) && game->map->items == 0)
+	{
+		render_cell(game, game->player->x / CELL_SIZE,
+			game->player->y / CELL_SIZE);
 		render_cell(game, game->map->exit.x, game->map->exit.y);
+	}
 	if (game->map->items == 0 && distance_to_exit(game) <= 8)
 		close_window(game);
 	render_enemies(game);
 	render_entity(game, game->player);
 	render_move_count(game, game->move_count / 10);
-	mlx_put_image_to_window(game->mlx, game->mlx_win, game->buffer->img, 0, 0);
+	mlx_put_image_to_window(game->mlx, game->mlx_win, game->buffer[1]->img, 0, 0);
 	mlx_do_sync(game->mlx);
 	time = 55000 - (clock() - time) * 1000000 / CLOCKS_PER_SEC;
 	if (time > 0)
