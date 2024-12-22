@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 12:03:26 by asene             #+#    #+#             */
-/*   Updated: 2024/12/16 13:46:46 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/22 14:27:38 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,16 @@ int	move_entity(t_game *game, t_entity *e)
 	return (1);
 }
 
-void	move_enemies(t_game *game)
+void	move_entities(t_game *game)
 {
 	t_list		*lst;
 	t_entity	*e;
 
-	lst = game->enemies;
+	lst = game->entities;
 	while (lst != NULL)
 	{
 		e = lst->content;
-		if (e->mov != DEAD && move_entity(game, e) == 0)
+		if (e->mov != DEAD && move_entity(game, e) == 0 && e->type == MONSTER)
 		{
 			if (e->dir == D_RIGHT)
 				e->dir = D_LEFT;
@@ -67,6 +67,7 @@ void	move_enemies(t_game *game)
 		}
 		lst = lst->next;
 	}
+	check_collide(game);
 }
 
 void	check_collide(t_game *game)
@@ -75,20 +76,18 @@ void	check_collide(t_game *game)
 	t_entity	*e;
 	int			d;
 
-	lst = game->enemies;
+	lst = game->entities;
 	while (lst != NULL)
 	{
 		e = lst->content;
-		d = distance_entity(game->player, e);
-		if (game->player->mov == ATTACK)
+		if (e->type != PLAYER)
 		{
-			if (d <= 48)
-				e->mov = DEAD;
-		}
-		if (e->mov != DEAD && d <= 24)
-		{
-			game->player->mov = DEAD;
-			return ;
+			d = distance_entity(game->player, e);
+			if (game->player->mov == ATTACK)
+				if (d <= 48)
+					e->mov = DEAD;
+			if (e->mov != DEAD && d <= 24)
+				return (game->player->mov = DEAD, (void)0);
 		}
 		lst = lst->next;
 	}

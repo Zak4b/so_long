@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:23:00 by asene             #+#    #+#             */
-/*   Updated: 2024/12/22 00:15:05 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/22 15:13:17 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ typedef struct s_img
 
 typedef enum e_type
 {
-	PLAYER,
-	MONSTER
+	PLAYER = 0,
+	MONSTER = 1
 }	t_type;
 
 typedef struct s_entity
@@ -76,14 +76,13 @@ typedef struct s_game
 	int			move_count;
 	t_map		*map;
 	t_img		*buffer[2];
-	t_img		**img[4][4];
-	t_img		**simg[4][4];
-	t_list		*enemies;
+	t_img		**img[2][4][4];
+	t_list		*entities;
 	t_img		**digits;
 	t_img		*floor;
 	t_img		*wall;
 	t_img		*item;
-	t_img		*exit[2];
+	t_img		**exit;
 }	t_game;
 
 typedef enum e_keycode
@@ -135,7 +134,7 @@ int			check_map(t_map *map, int *status);
 
 t_entity	*new_entity(t_type type, int x, int y);
 int			move_entity(t_game *game, t_entity *e);
-void		move_enemies(t_game *game);
+void		move_entities(t_game *game);
 void		check_collide(t_game *game);
 int			pickup_item(t_game *game);
 char		check_coords(t_map *map, int x, int y);
@@ -148,7 +147,7 @@ void		render_cell(t_game *game, int x, int y);
 void		render_arround(t_game *game, int x0, int y0);
 void		print_map(t_game *game);
 void		render_entity(t_game *game, t_entity *e);
-void		render_enemies(t_game *game);
+void		render_entities(t_game *game);
 void		render_move_count(t_game *game, unsigned int nb);
 
 #endif

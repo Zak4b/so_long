@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:31:59 by asene             #+#    #+#             */
-/*   Updated: 2024/12/21 23:59:33 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/22 15:19:34 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,22 +56,21 @@ void	free_all_images(t_game *game)
 	i = 0;
 	while (i < 4)
 	{
-		clear_array_img(game, game->img[IDLE][i]);
-		clear_array_img(game, game->img[WALK][i]);
-		clear_array_img(game, game->img[ATTACK][i]);
-		clear_array_img(game, game->simg[WALK][i]);
+		clear_array_img(game, game->img[PLAYER][IDLE][i]);
+		clear_array_img(game, game->img[PLAYER][WALK][i]);
+		clear_array_img(game, game->img[PLAYER][ATTACK][i]);
+		clear_array_img(game, game->img[MONSTER][WALK][i]);
 		i++;
 	}
-	clear_array_img(game, game->img[DEAD][0]);
-	clear_array_img(game, game->simg[DEAD][0]);
+	clear_array_img(game, game->img[PLAYER][DEAD][0]);
+	clear_array_img(game, game->img[MONSTER][DEAD][0]);
 	clear_array_img(game, game->digits);
+	clear_array_img(game, game->exit);
 	free_image(game, game->buffer[0]);
 	free_image(game, game->buffer[1]);
 	free_image(game, game->floor);
 	free_image(game, game->wall);
 	free_image(game, game->item);
-	free_image(game, game->exit[0]);
-	free_image(game, game->exit[1]);
 }
 
 int	close_window(t_game *game)
@@ -79,8 +78,7 @@ int	close_window(t_game *game)
 	mlx_do_key_autorepeaton(game->mlx);
 	clear_map(game->map);
 	free_all_images(game);
-	free(game->player);
-	ft_lstclear(&game->enemies, free);
+	ft_lstclear(&game->entities, free);
 	mlx_destroy_window(game->mlx, game->mlx_win);
 	mlx_destroy_display(game->mlx);
 	free(game->mlx);
@@ -95,18 +93,16 @@ int	game_loop(t_game *g)
 	time = clock();
 	ft_memcpy(g->buffer[1]->addr, g->buffer[0]->addr,
 		g->buffer[0]->height * g->buffer[0]->line_length);
-	move_entity(g, g->player);
-	move_enemies(g);
-	check_collide(g);
-	if (pickup_item(g) && g->map->items == 0)
+	move_entities(g);
+	if (pickup_item(g))
 	{
 		render_cell(g, g->player->x / CELL_SIZE, g->player->y / CELL_SIZE);
-		render_cell(g, g->map->exit.x, g->map->exit.y);
+		if (g->map->items == 0)
+			render_cell(g, g->map->exit.x, g->map->exit.y);
 	}
 	if (g->map->items == 0 && distance_to_exit(g) <= 8)
 		close_window(g);
-	render_enemies(g);
-	render_entity(g, g->player);
+	render_entities(g);
 	render_move_count(g, g->move_count / 10);
 	mlx_put_image_to_window(g->mlx, g->mlx_win, g->buffer[1]->img, 0, 0);
 	mlx_do_sync(g->mlx);

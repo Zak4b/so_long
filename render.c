@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 11:37:01 by asene             #+#    #+#             */
-/*   Updated: 2024/12/21 22:27:46 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/22 14:56:41 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,7 @@ void	render_entity(t_game *game, t_entity *e)
 	d = e->dir;
 	if (e->mov == DEAD)
 		d = 0;
-	if (e->type == MONSTER)
-		img_array = game->simg[e->mov][d];
-	else
-		img_array = game->img[e->mov][d];
+	img_array = game->img[e->type][e->mov][d];
 	if (img_array[e->anim_state] == NULL)
 	{
 		if (e->mov == ATTACK)
@@ -76,15 +73,15 @@ void	render_entity(t_game *game, t_entity *e)
 	e->anim_state++;
 }
 
-void	render_enemies(t_game *game)
+void	render_entities(t_game *game)
 {
-	t_list		*enemies;
+	t_list		*entities;
 
-	enemies = game->enemies;
-	while (enemies != NULL)
+	entities = game->entities;
+	while (entities != NULL)
 	{
-		render_entity(game, enemies->content);
-		enemies = enemies->next;
+		render_entity(game, entities->content);
+		entities = entities->next;
 	}
 }
 

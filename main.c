@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 10:51:51 by asene             #+#    #+#             */
-/*   Updated: 2024/12/22 00:34:14 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/22 15:13:53 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,39 +14,41 @@
 
 void	init_images(t_game *g)
 {
-	g->img[IDLE][D_DOWN] = load_sprites(g, "./assets/player/idle/pif", 6);
-	g->img[IDLE][D_UP] = load_sprites(g, "./assets/player/idle/pib", 6);
-	g->img[IDLE][D_RIGHT] = load_sprites(g, "./assets/player/idle/pir", 6);
-	g->img[IDLE][D_LEFT] = load_sprites(g, "./assets/player/idle/pil", 6);
-	g->img[WALK][D_DOWN] = load_sprites(g, "./assets/player/walk/pwf", 6);
-	g->img[WALK][D_UP] = load_sprites(g, "./assets/player/walk/pwb", 6);
-	g->img[WALK][D_RIGHT] = load_sprites(g, "./assets/player/walk/pwr", 6);
-	g->img[WALK][D_LEFT] = load_sprites(g, "./assets/player/walk/pwl", 6);
-	g->img[ATTACK][D_DOWN] = load_sprites(g, "./assets/player/attack/paf", 4);
-	g->img[ATTACK][D_UP] = load_sprites(g, "./assets/player/attack/pab", 4);
-	g->img[ATTACK][D_RIGHT] = load_sprites(g, "./assets/player/attack/par", 4);
-	g->img[ATTACK][D_LEFT] = load_sprites(g, "./assets/player/attack/pal", 4);
-	g->img[DEAD][0] = load_sprites(g, "./assets/player/death/pd", 3);
-	g->simg[WALK][D_DOWN] = load_sprites(g, "./assets/slime/sf", 6);
-	g->simg[WALK][D_UP] = load_sprites(g, "./assets/slime/sb", 6);
-	g->simg[WALK][D_RIGHT] = load_sprites(g, "./assets/slime/sr", 6);
-	g->simg[WALK][D_LEFT] = load_sprites(g, "./assets/slime/sl", 6);
-	g->simg[DEAD][0] = load_sprites(g, "./assets/slime/sd", 5);
+	static t_img	**(*l)(t_game *, char *, unsigned int) = load_sprites;
+
+	g->img[PLAYER][IDLE][D_DOWN] = l(g, "./assets/player/idle/pif", 6);
+	g->img[PLAYER][IDLE][D_UP] = l(g, "./assets/player/idle/pib", 6);
+	g->img[PLAYER][IDLE][D_RIGHT] = l(g, "./assets/player/idle/pir", 6);
+	g->img[PLAYER][IDLE][D_LEFT] = l(g, "./assets/player/idle/pil", 6);
+	g->img[PLAYER][WALK][D_DOWN] = l(g, "./assets/player/walk/pwf", 6);
+	g->img[PLAYER][WALK][D_UP] = l(g, "./assets/player/walk/pwb", 6);
+	g->img[PLAYER][WALK][D_RIGHT] = l(g, "./assets/player/walk/pwr", 6);
+	g->img[PLAYER][WALK][D_LEFT] = l(g, "./assets/player/walk/pwl", 6);
+	g->img[PLAYER][ATTACK][D_DOWN] = l(g, "./assets/player/attack/paf", 4);
+	g->img[PLAYER][ATTACK][D_UP] = l(g, "./assets/player/attack/pab", 4);
+	g->img[PLAYER][ATTACK][D_RIGHT] = l(g, "./assets/player/attack/par", 4);
+	g->img[PLAYER][ATTACK][D_LEFT] = l(g, "./assets/player/attack/pal", 4);
+	g->img[PLAYER][DEAD][0] = l(g, "./assets/player/death/pd", 3);
+	g->img[MONSTER][WALK][D_DOWN] = l(g, "./assets/slime/sf", 6);
+	g->img[MONSTER][WALK][D_UP] = l(g, "./assets/slime/sb", 6);
+	g->img[MONSTER][WALK][D_RIGHT] = l(g, "./assets/slime/sr", 6);
+	g->img[MONSTER][WALK][D_LEFT] = l(g, "./assets/slime/sl", 6);
+	g->img[MONSTER][DEAD][0] = l(g, "./assets/slime/sd", 5);
 	g->floor = load_img(g, "./assets/grass.xpm");
 	g->wall = load_img(g, "./assets/wall.xpm");
 	g->item = load_img(g, "./assets/coin.xpm");
-	g->exit[0] = load_img(g, "./assets/trap0.xpm");
-	g->exit[1] = load_img(g, "./assets/trap1.xpm");
+	g->exit = l(g, "./assets/trap", 2);
 	g->digits = load_sprites(g, "./assets/digits/", 10);
 }
 
-void	init_enemies(t_game *game)
+void	init_entities(t_game *game)
 {
 	int			x;
 	int			y;
 	t_entity	*e;
 
-	game->enemies = NULL;
+	game->entities = NULL;
+	ft_lstadd_back(&game->entities, ft_lstnew(game->player));
 	y = 0;
 	while (y < game->map->height)
 	{
@@ -58,7 +60,7 @@ void	init_enemies(t_game *game)
 				e = new_entity(MONSTER, (x + 0.5) * CELL_SIZE,
 						(y + 0.5) * CELL_SIZE);
 				e->mov = WALK;
-				ft_lstadd_back(&(game->enemies), ft_lstnew(e));
+				ft_lstadd_back(&game->entities, ft_lstnew(e));
 			}
 			x++;
 		}
@@ -79,16 +81,16 @@ void	init_game(t_game *game)
 	init_images(game);
 	game->buffer[0] = new_image(game->mlx, win_width, win_height);
 	game->buffer[1] = new_image(game->mlx, win_width, win_height);
-	print_map(game);
-	mlx_hook(game->mlx_win, 17, 0, close_window, game);
-	mlx_hook(game->mlx_win, 2, 1L << 0, key_down_hook, game);
-	mlx_hook(game->mlx_win, 3, 1L << 1, key_up_hook, game);
 	game->player = new_entity(PLAYER, (game->map->entrance.x + 0.5) * CELL_SIZE,
 			(game->map->entrance.y + 0.5) * CELL_SIZE);
 	game->move_count = 0;
-	init_enemies(game);
+	init_entities(game);
+	mlx_hook(game->mlx_win, 17, 0, close_window, game);
+	mlx_hook(game->mlx_win, 2, 1L << 0, key_down_hook, game);
+	mlx_hook(game->mlx_win, 3, 1L << 1, key_up_hook, game);
 	mlx_loop_hook(game->mlx, game_loop, game);
 	mlx_do_key_autorepeatoff(game->mlx);
+	print_map(game);
 }
 
 char	*get_error_msg(int code)
@@ -99,7 +101,7 @@ char	*get_error_msg(int code)
 		"can't reach all items and exit"
 	};
 
-	if (code && code <= 3)
+	if (code && code <= (long)(sizeof(msgs) / sizeof(char *)))
 		return ((char *)msgs[code - 1]);
 	return ("");
 }
