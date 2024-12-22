@@ -11,19 +11,18 @@ INC = -I./$(MLX_FOLDER) -I./libft -I./
 LIB = -L./$(MLX_FOLDER) -L/usr/lib -lmlx -lXext -lX11 -lm -lz -L./libft/ -lft
 
 FLAGS = -Wall -Wextra -Werror -O3
-LIBFLAGS = -L./$(MLX_FOLDER) -L/usr/lib -lmlx -lXext -lX11 -lm -lz
 
 SOURCES = \
-        main.c \
-        event_hooks.c \
-        game.c \
-		render.c \
-		map_utils.c \
-        map_parser.c \
-        map_checker.c \
-		mlx_img_utils.c \
-		mlx_img_utils2.c \
-		distance.c
+	main.c \
+	event_hooks.c \
+	game.c \
+	render.c \
+	map_utils.c \
+	map_parser.c \
+	map_checker.c \
+	mlx_img_utils.c \
+	mlx_img_utils2.c \
+	distance.c
 
 OBJDIR = obj
 OBJS = $(addprefix $(OBJDIR)/, $(SOURCES:.c=.o))
