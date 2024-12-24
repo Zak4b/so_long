@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 12:03:26 by asene             #+#    #+#             */
-/*   Updated: 2024/12/22 14:27:38 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/24 15:05:22 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,20 @@ void	move_entities(t_game *game)
 	while (lst != NULL)
 	{
 		e = lst->content;
-		if (e->mov != DEAD && move_entity(game, e) == 0 && e->type == MONSTER)
+		if (e->mov != DEAD)
 		{
-			if (e->dir == D_RIGHT)
-				e->dir = D_LEFT;
-			else
-				e->dir = D_RIGHT;
+			if (move_entity(game, e))
+			{
+				if (e == game->player)
+					game->move_count++;
+			}
+			else if (e->type == MONSTER)
+			{
+				if (e->dir == D_RIGHT)
+					e->dir = D_LEFT;
+				else
+					e->dir = D_RIGHT;
+			}
 		}
 		lst = lst->next;
 	}
