@@ -6,11 +6,11 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:31:59 by asene             #+#    #+#             */
-/*   Updated: 2024/12/22 15:19:34 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/25 23:02:13 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include <so_long.h>
 
 int	key_down_hook(int k, t_game *game)
 {

@@ -6,11 +6,11 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:57:27 by asene             #+#    #+#             */
-/*   Updated: 2024/12/16 11:44:56 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/25 23:02:13 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include <so_long.h>
 
 int	line_is_valid(const char *line)
 {

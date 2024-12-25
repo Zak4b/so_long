@@ -6,11 +6,11 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 13:08:17 by asene             #+#    #+#             */
-/*   Updated: 2024/12/16 14:53:51 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/25 23:02:13 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include <so_long.h>
 
 int	distance(int x1, int y1, int x2, int y2)
 {

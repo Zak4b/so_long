@@ -6,11 +6,11 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 12:03:26 by asene             #+#    #+#             */
-/*   Updated: 2024/12/24 15:05:22 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/25 23:02:13 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include <so_long.h>
 
 t_entity	*new_entity(t_type type, int x, int y)
 {

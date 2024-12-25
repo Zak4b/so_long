@@ -6,11 +6,11 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 10:51:51 by asene             #+#    #+#             */
-/*   Updated: 2024/12/22 15:13:53 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/25 23:03:14 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include <so_long.h>
 
 void	init_images(t_game *g)
 {
@@ -48,7 +48,6 @@ void	init_entities(t_game *game)
 	t_entity	*e;
 
 	game->entities = NULL;
-	ft_lstadd_back(&game->entities, ft_lstnew(game->player));
 	y = 0;
 	while (y < game->map->height)
 	{
@@ -66,6 +65,7 @@ void	init_entities(t_game *game)
 		}
 		y++;
 	}
+	ft_lstadd_back(&game->entities, ft_lstnew(game->player));
 }
 
 void	init_game(t_game *game)

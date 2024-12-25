@@ -37,7 +37,7 @@ all: $(NAME)
 $(OBJDIR):
 	@mkdir -p $(OBJDIR)
 
-$(OBJDIR)/%.o: %.c | $(OBJDIR)
+$(OBJDIR)/%.o: srcs/%.c | $(OBJDIR)
 	@echo "$(GREEN)Compiling $<...$(RESET)"
 	@cc $(FLAGS) $(INC) -c $< -o $@
 

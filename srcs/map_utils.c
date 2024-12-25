@@ -6,11 +6,11 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 13:01:28 by asene             #+#    #+#             */
-/*   Updated: 2024/12/12 18:00:51 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/25 23:02:13 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include <so_long.h>
 
 t_map	*init_map(void)
 {

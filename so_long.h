@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:23:00 by asene             #+#    #+#             */
-/*   Updated: 2024/12/22 15:13:17 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/25 23:01:39 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <fcntl.h>
 # include <time.h>
 # include <math.h>
-# include "minilibx-linux/mlx.h"
+# include <mlx.h>
 
 # define CELL_SIZE 80
 # define MOVE_DISTANCE 8
