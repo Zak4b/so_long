@@ -130,7 +130,7 @@ Example of a valid map:
 
 ## Credits
 
-[Player and monster's sprites](https://game-endeavor.itch.io/mystic-woods)
+[Player and monster's sprites](https://game-endeavor.itch.io/mystic-woods)\
 Developed by: asene\
 Part of the 42 curriculum.
 
