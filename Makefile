@@ -62,6 +62,6 @@ fclean: clean
 re: fclean all
 
 norm:
-	norminette $(SOURCES) libft so_long.h
+	norminette srcs libft *.h *.c
 
 .PHONY: all clean fclean re

@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:53:44 by asene             #+#    #+#             */
-/*   Updated: 2024/12/25 23:02:13 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/31 00:42:20 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,12 @@ void	count_specials(t_map *map, int *entrance, int *exit)
 	}
 }
 
-int	check_map(t_map *map, int *status)
+void	map_error_msg(char *msg)
+{
+	ft_fprintf(2, "Invalid map, %s\n", msg);
+}
+
+int	check_map(t_map *map)
 {
 	t_map	*map_dup;
 	int		entrance;
@@ -68,14 +73,13 @@ int	check_map(t_map *map, int *status)
 
 	entrance = 0;
 	exit = 0;
-	*status = 0;
 	count_specials(map, &entrance, &exit);
 	if (exit != 1 || entrance != 1 || map->items < 1)
 	{
 		if (map->items < 1)
-			*status = 1;
+			map_error_msg("not enough items");
 		else
-			*status = 2;
+			map_error_msg("need at least 1 entrance and 1 exit");
 		return (0);
 	}
 	map_dup = dup_map(map);
@@ -83,6 +87,6 @@ int	check_map(t_map *map, int *status)
 	items = map_dup->items;
 	clear_map(map_dup);
 	if (exit != 0 || items != 0)
-		return (*status = 3, 0);
+		return (map_error_msg("can't solve map"), 0);
 	return (1);
 }

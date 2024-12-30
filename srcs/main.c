@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 10:51:51 by asene             #+#    #+#             */
-/*   Updated: 2024/12/25 23:03:14 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/31 00:49:12 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,39 +93,35 @@ void	init_game(t_game *game)
 	print_map(game);
 }
 
-char	*get_error_msg(int code)
+int	open_file(char *path, int *fd)
 {
-	const char	*msgs[] = {
-		"not enough items",
-		"need at least 1 entrance and 1 exit",
-		"can't reach all items and exit"
-	};
+	int	i;
 
-	if (code && code <= (long)(sizeof(msgs) / sizeof(char *)))
-		return ((char *)msgs[code - 1]);
-	return ("");
+	i = ft_strlen(path) - 4;
+	if (i < 0 || ft_strncmp(path + i, ".ber", 4))
+		return (ft_fprintf(2, ERROR_BER, path), 0);
+	*fd = open(path, O_RDONLY);
+	if (*fd < 0)
+		return (ft_fprintf(2, ERROR_FILE, path), 0);
+	return (1);
 }
 
 int	main(int argc, char **argv)
 {
 	int		fd;
 	t_game	game;
-	int		status_code;
 
-	status_code = 0;
 	if (argc != 2)
-		return (ft_fprintf(2, "Usage: %s <FILE>\n", argv[0]), EXIT_FAILURE);
-	fd = open(argv[1], O_RDONLY);
-	if (fd < 0)
-		return (ft_fprintf(2, "Can't open file \"%s\"\n", argv[1]), 1);
+		return (ft_fprintf(2, ERROR_ARGS, argv[0]), EXIT_FAILURE);
+	if (!open_file(argv[1], &fd))
+		return (EXIT_FAILURE);
 	game.map = parse_map(fd);
 	close(fd);
 	get_next_line(fd);
 	if (game.map == NULL)
-		return (ft_fprintf(2, "Invalid map, parsing failed\n"), EXIT_FAILURE);
-	else if (!check_map(game.map, &status_code))
-		return (clear_map(game.map),
-			ft_fprintf(2, "Invalid map, %s\n", get_error_msg(status_code)), 1);
+		return (ft_fprintf(2, ERROR_PARSING), EXIT_FAILURE);
+	else if (!check_map(game.map))
+		return (clear_map(game.map), EXIT_FAILURE);
 	init_game(&game);
 	mlx_loop(game.mlx);
 }
