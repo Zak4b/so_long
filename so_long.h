@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:23:00 by asene             #+#    #+#             */
-/*   Updated: 2024/12/31 00:36:31 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/31 01:01:08 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_entity
 {
 	int		x;
 	int		y;
+	float	speed;
 	int		dir;
 	int		mov;
 	t_type	type;

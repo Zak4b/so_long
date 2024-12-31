@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 12:03:26 by asene             #+#    #+#             */
-/*   Updated: 2024/12/25 23:02:13 by asene            ###   ########.fr       */
+/*   Updated: 2024/12/31 01:01:02 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_entity	*new_entity(t_type type, int x, int y)
 	e->type = type;
 	e->x = x;
 	e->y = y;
+	e->speed = 1;
 	e->mov = IDLE;
 	e->last_mov = e->mov;
 	e->dir = D_RIGHT;
@@ -30,15 +31,15 @@ t_entity	*new_entity(t_type type, int x, int y)
 
 int	move_entity(t_game *game, t_entity *e)
 {
-	const int	dx[] = {-MOVE_DISTANCE, 0, MOVE_DISTANCE, 0};
-	const int	dy[] = {0, -MOVE_DISTANCE, 0, MOVE_DISTANCE};
+	const int	dx[] = {-1, 0, 1, 0};
+	const int	dy[] = {0, -1, 0, 1};
 	int			x;
 	int			y;
 
 	if (e->mov != WALK)
 		return (0);
-	x = e->x + dx[e->dir];
-	y = e->y + dy[e->dir];
+	x = e->x + dx[e->dir] * MOVE_DISTANCE * e->speed;
+	y = e->y + dy[e->dir] * MOVE_DISTANCE * e->speed;
 	if (check_coords(game->map, x - 16, y - 16) == '1'
 		|| check_coords(game->map, x + 16, y - 16) == '1'
 		|| check_coords(game->map, x - 16, y + 16) == '1'
