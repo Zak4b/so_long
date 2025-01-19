@@ -27,7 +27,7 @@ SOURCES = \
 OBJDIR = obj
 OBJS = $(addprefix $(OBJDIR)/, $(SOURCES:.c=.o))
 
-$(NAME): $(LIBFT) $(MLX) $(OBJS)
+$(NAME): update_submodules $(LIBFT) $(MLX) $(OBJS)
 	@echo "$(GREEN)Compiling $(NAME)...$(RESET)"
 	@cc $(FLAGS) $(OBJS) -o $(NAME) $(INC) $(LIB)
 	@echo "$(GREEN)Compilation finished successfully!$(RESET)"
@@ -63,5 +63,8 @@ re: fclean all
 
 norm:
 	norminette srcs libft *.h *.c
+
+update_submodules:
+	git submodule update --init --recursive
 
 .PHONY: all clean fclean re
