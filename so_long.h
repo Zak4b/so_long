@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:23:00 by asene             #+#    #+#             */
-/*   Updated: 2024/12/31 01:01:08 by asene            ###   ########.fr       */
+/*   Updated: 2025/02/14 19:16:38 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <time.h>
 # include <math.h>
 # include <mlx.h>
+# include "srcs/mlx_utils.h"
 
 # define CELL_SIZE 80
 # define MOVE_DISTANCE 8
@@ -27,17 +28,6 @@
 # define ERROR_BER "\"%s\" is not a .ber file\n"
 # define ERROR_FILE "Can't open file \"%s\"\n"
 # define ERROR_PARSING "Invalid map, parsing failed\n"
-
-typedef struct s_img
-{
-	int		width;
-	int		height;
-	void	*img;
-	char	*addr;
-	int		bpp;
-	int		line_length;
-	int		endian;
-}	t_img;
 
 typedef enum e_type
 {
@@ -76,8 +66,7 @@ typedef struct s_map
 
 typedef struct s_game
 {
-	void		*mlx;
-	void		*mlx_win;
+	t_mlx		*mlx;
 	t_entity	*player;
 	int			move_count;
 	t_map		*map;
@@ -117,14 +106,6 @@ typedef enum e_state
 	DEAD = 3
 }	t_state;
 
-t_img		*load_img(t_game *game, char *path);
-t_img		**load_sprites(t_game *game, char *path, unsigned int count);
-char		*build_path(char const *s1, char const *s2, int j);
-void		put_image(t_img *dest, t_img *img, int x0, int y0);
-t_img		*new_image(void *mlx, int width, int height);
-void		free_image(t_game *game, t_img *img);
-void		clear_array_img(t_game *game, t_img **imgs);
-
 int			key_down_hook(int keycode, t_game *game);
 int			key_up_hook(int keycode, t_game *game);
 int			close_window(t_game *game);
@@ -150,7 +131,6 @@ int			distance_to_exit(t_game *game);
 int			distance_entity(t_entity *e1, t_entity *e2);
 
 void		render_cell(t_game *game, int x, int y);
-void		render_arround(t_game *game, int x0, int y0);
 void		print_map(t_game *game);
 void		render_entity(t_game *game, t_entity *e);
 void		render_entities(t_game *game);

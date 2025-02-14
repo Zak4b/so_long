@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:31:59 by asene             #+#    #+#             */
-/*   Updated: 2024/12/25 23:02:13 by asene            ###   ########.fr       */
+/*   Updated: 2025/02/14 19:32:57 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,39 +49,12 @@ int	key_up_hook(int k, t_game *game)
 	return (0);
 }
 
-void	free_all_images(t_game *game)
-{
-	int	i;
-
-	i = 0;
-	while (i < 4)
-	{
-		clear_array_img(game, game->img[PLAYER][IDLE][i]);
-		clear_array_img(game, game->img[PLAYER][WALK][i]);
-		clear_array_img(game, game->img[PLAYER][ATTACK][i]);
-		clear_array_img(game, game->img[MONSTER][WALK][i]);
-		i++;
-	}
-	clear_array_img(game, game->img[PLAYER][DEAD][0]);
-	clear_array_img(game, game->img[MONSTER][DEAD][0]);
-	clear_array_img(game, game->digits);
-	clear_array_img(game, game->exit);
-	free_image(game, game->buffer[0]);
-	free_image(game, game->buffer[1]);
-	free_image(game, game->floor);
-	free_image(game, game->wall);
-	free_image(game, game->item);
-}
-
 int	close_window(t_game *game)
 {
-	mlx_do_key_autorepeaton(game->mlx);
+	mlx_do_key_autorepeaton(game->mlx->instance);
 	clear_map(game->map);
-	free_all_images(game);
 	ft_lstclear(&game->entities, free);
-	mlx_destroy_window(game->mlx, game->mlx_win);
-	mlx_destroy_display(game->mlx);
-	free(game->mlx);
+	t_mlx_kill(game->mlx);
 	exit(EXIT_SUCCESS);
 	return (0);
 }
@@ -104,8 +77,8 @@ int	game_loop(t_game *g)
 		close_window(g);
 	render_entities(g);
 	render_move_count(g, g->move_count / 10);
-	mlx_put_image_to_window(g->mlx, g->mlx_win, g->buffer[1]->img, 0, 0);
-	mlx_do_sync(g->mlx);
+	mlx_put_image_to_window(g->mlx->instance, g->mlx->window, g->buffer[1]->img, 0, 0);
+	mlx_do_sync(g->mlx->instance);
 	time = 55000 - (clock() - time) * 1000000 / CLOCKS_PER_SEC;
 	if (time > 0)
 		usleep(time);

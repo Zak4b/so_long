@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 10:51:51 by asene             #+#    #+#             */
-/*   Updated: 2024/12/31 00:58:23 by asene            ###   ########.fr       */
+/*   Updated: 2025/02/14 19:29:06 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,29 @@
 
 void	init_images(t_game *g)
 {
-	static t_img	**(*l)(t_game *, char *, unsigned int) = load_sprites;
-
-	g->img[PLAYER][IDLE][D_DOWN] = l(g, "./assets/player/idle/pif", 6);
-	g->img[PLAYER][IDLE][D_UP] = l(g, "./assets/player/idle/pib", 6);
-	g->img[PLAYER][IDLE][D_RIGHT] = l(g, "./assets/player/idle/pir", 6);
-	g->img[PLAYER][IDLE][D_LEFT] = l(g, "./assets/player/idle/pil", 6);
-	g->img[PLAYER][WALK][D_DOWN] = l(g, "./assets/player/walk/pwf", 6);
-	g->img[PLAYER][WALK][D_UP] = l(g, "./assets/player/walk/pwb", 6);
-	g->img[PLAYER][WALK][D_RIGHT] = l(g, "./assets/player/walk/pwr", 6);
-	g->img[PLAYER][WALK][D_LEFT] = l(g, "./assets/player/walk/pwl", 6);
-	g->img[PLAYER][ATTACK][D_DOWN] = l(g, "./assets/player/attack/paf", 4);
-	g->img[PLAYER][ATTACK][D_UP] = l(g, "./assets/player/attack/pab", 4);
-	g->img[PLAYER][ATTACK][D_RIGHT] = l(g, "./assets/player/attack/par", 4);
-	g->img[PLAYER][ATTACK][D_LEFT] = l(g, "./assets/player/attack/pal", 4);
-	g->img[PLAYER][DEAD][0] = l(g, "./assets/player/death/pd", 3);
-	g->img[MONSTER][WALK][D_DOWN] = l(g, "./assets/slime/sf", 6);
-	g->img[MONSTER][WALK][D_UP] = l(g, "./assets/slime/sb", 6);
-	g->img[MONSTER][WALK][D_RIGHT] = l(g, "./assets/slime/sr", 6);
-	g->img[MONSTER][WALK][D_LEFT] = l(g, "./assets/slime/sl", 6);
-	g->img[MONSTER][DEAD][0] = l(g, "./assets/slime/sd", 5);
-	g->floor = load_img(g, "./assets/grass.xpm");
-	g->wall = load_img(g, "./assets/wall.xpm");
-	g->item = load_img(g, "./assets/coin.xpm");
-	g->exit = l(g, "./assets/trap", 2);
-	g->digits = load_sprites(g, "./assets/digits/", 10);
+	g->img[PLAYER][IDLE][D_DOWN] = load_sprites(g->mlx, "./assets/player/idle/pif", 6);
+	g->img[PLAYER][IDLE][D_UP] = load_sprites(g->mlx, "./assets/player/idle/pib", 6);
+	g->img[PLAYER][IDLE][D_RIGHT] = load_sprites(g->mlx, "./assets/player/idle/pir", 6);
+	g->img[PLAYER][IDLE][D_LEFT] = load_sprites(g->mlx, "./assets/player/idle/pil", 6);
+	g->img[PLAYER][WALK][D_DOWN] = load_sprites(g->mlx, "./assets/player/walk/pwf", 6);
+	g->img[PLAYER][WALK][D_UP] = load_sprites(g->mlx, "./assets/player/walk/pwb", 6);
+	g->img[PLAYER][WALK][D_RIGHT] = load_sprites(g->mlx, "./assets/player/walk/pwr", 6);
+	g->img[PLAYER][WALK][D_LEFT] = load_sprites(g->mlx, "./assets/player/walk/pwl", 6);
+	g->img[PLAYER][ATTACK][D_DOWN] = load_sprites(g->mlx, "./assets/player/attack/paf", 4);
+	g->img[PLAYER][ATTACK][D_UP] = load_sprites(g->mlx, "./assets/player/attack/pab", 4);
+	g->img[PLAYER][ATTACK][D_RIGHT] = load_sprites(g->mlx, "./assets/player/attack/par", 4);
+	g->img[PLAYER][ATTACK][D_LEFT] = load_sprites(g->mlx, "./assets/player/attack/pal", 4);
+	g->img[PLAYER][DEAD][0] = load_sprites(g->mlx, "./assets/player/death/pd", 3);
+	g->img[MONSTER][WALK][D_DOWN] = load_sprites(g->mlx, "./assets/slime/sf", 6);
+	g->img[MONSTER][WALK][D_UP] = load_sprites(g->mlx, "./assets/slime/sb", 6);
+	g->img[MONSTER][WALK][D_RIGHT] = load_sprites(g->mlx, "./assets/slime/sr", 6);
+	g->img[MONSTER][WALK][D_LEFT] = load_sprites(g->mlx, "./assets/slime/sl", 6);
+	g->img[MONSTER][DEAD][0] = load_sprites(g->mlx, "./assets/slime/sd", 5);
+	g->floor = load_img(g->mlx, "./assets/grass.xpm");
+	g->wall = load_img(g->mlx, "./assets/wall.xpm");
+	g->item = load_img(g->mlx, "./assets/coin.xpm");
+	g->exit = load_sprites(g->mlx, "./assets/trap", 2);
+	g->digits = load_sprites(g->mlx, "./assets/digits/", 10);
 }
 
 void	init_entities(t_game *game)
@@ -76,9 +74,7 @@ void	init_game(t_game *game)
 
 	win_width = game->map->width * CELL_SIZE;
 	win_height = game->map->height * CELL_SIZE;
-	game->mlx = mlx_init();
-	game->mlx_win = mlx_new_window(game->mlx, win_width,
-			win_height, "So Looooooooooong!");
+	game->mlx = t_mlx_init(win_width, win_height, "So Looooooooooong!");
 	init_images(game);
 	game->buffer[0] = new_image(game->mlx, win_width, win_height);
 	game->buffer[1] = new_image(game->mlx, win_width, win_height);
@@ -86,11 +82,11 @@ void	init_game(t_game *game)
 			(game->map->entrance.y + 0.5) * CELL_SIZE);
 	game->move_count = 0;
 	init_entities(game);
-	mlx_hook(game->mlx_win, 17, 0, close_window, game);
-	mlx_hook(game->mlx_win, 2, 1L << 0, key_down_hook, game);
-	mlx_hook(game->mlx_win, 3, 1L << 1, key_up_hook, game);
-	mlx_loop_hook(game->mlx, game_loop, game);
-	mlx_do_key_autorepeatoff(game->mlx);
+	mlx_hook(game->mlx->window, 17, 0, close_window, game);
+	mlx_hook(game->mlx->window, 2, 1L << 0, key_down_hook, game);
+	mlx_hook(game->mlx->window, 3, 1L << 1, key_up_hook, game);
+	mlx_loop_hook(game->mlx->instance, game_loop, game);
+	mlx_do_key_autorepeatoff(game->mlx->instance);
 	print_map(game);
 }
 
@@ -124,5 +120,5 @@ int	main(int argc, char **argv)
 	else if (!check_map(game.map))
 		return (clear_map(game.map), EXIT_FAILURE);
 	init_game(&game);
-	mlx_loop(game.mlx);
+	mlx_loop(game.mlx->instance);
 }
