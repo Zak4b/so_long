@@ -6,7 +6,7 @@
 /*   By: asene <asene@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 13:01:28 by asene             #+#    #+#             */
-/*   Updated: 2024/12/25 23:02:13 by asene            ###   ########.fr       */
+/*   Updated: 2025/02/15 15:29:02 by asene            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,8 @@ t_map	*dup_map(t_map *map)
 	int		i;
 	t_map	*dup;
 
-	dup = init_map();
-	dup->entrance = map->entrance;
-	dup->exit = map->exit;
-	dup->items = map->items;
-	dup->height = map->height;
-	dup->width = map->width;
+	dup = malloc(sizeof(t_map));
+	ft_memcpy(dup, map, sizeof(t_map));
 	dup->data = malloc(sizeof(char *) * dup->height);
 	i = 0;
 	while (i < dup->height)
